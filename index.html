@@ -3,108 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kanav | AI &amp; ML Explorer - Minecraft Portfolio</title>
-  <meta name="description" content="Minecraft themed portfolio for Kanav - 18 year old AI/ML enthusiast, competitive athlete, game server developer, and robotics builder.">
+  <title>Kanav | AI &amp; ML Explorer - Portfolio</title>
+  <meta name="description" content="Portfolio of Kanav - 18-year-old AI/ML enthusiast, competitive athlete, game server developer, and robotics builder.">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23126e7a'/><rect x='3' y='3' width='10' height='10' fill='%232be1ea'/><rect x='5' y='5' width='6' height='6' fill='%23ffffff'/></svg>">
 </head>
 <body class="biome-overworld">
 
-  <!-- Faint Minecraft Dirt / Cobblestone / Netherrack / End Stone Texture Layer -->
+  <!-- Faint Texture Background Layer -->
   <div id="mc-bg-texture-layer" class="mc-dirt-bg"></div>
 
-  <!-- Ambient Particle & Ender Pearl FX Canvases -->
+  <!-- Ambient Particle & Warp Effect Canvases -->
   <canvas id="ambient-canvas"></canvas>
   <canvas id="pearl-fx-canvas"></canvas>
 
-  <!-- Teleport Flash Overlay (Cyan/Magenta flash on pearl impact) -->
+  <!-- Subtle Screen Warp Flash -->
   <div id="teleport-flash"></div>
 
-  <!-- Minecraft Advancement Toast Popup -->
-  <div id="advancement-toast">
-    <div class="advancement-icon-frame" id="advancement-icon">🔥</div>
-    <div class="advancement-text">
-      <span class="advancement-label" id="advancement-label">ADVANCEMENT MADE!</span>
-      <span class="advancement-title" id="advancement-title">We Need to Go Deeper</span>
-    </div>
+  <!-- Sleek Dimension Pill Notification (Non-blocking) -->
+  <div id="dimension-pill-notice">
+    <span class="pill-icon" id="dimension-pill-icon">🌍</span>
+    <span class="pill-text" id="dimension-pill-text">Entered The Overworld</span>
   </div>
 
-  <!-- Minecraft On-Screen Title HUD (/title effect) -->
-  <div id="minecraft-title-hud">
-    <h2 class="mc-title-main" id="mc-title-main">THE OVERWORLD</h2>
-    <p class="mc-title-sub" id="mc-title-sub">Plains Base Camp</p>
-  </div>
-
-  <!-- FULLSCREEN REALISTIC OBSIDIAN NETHER PORTAL TELEPORT OVERLAY -->
-  <div id="nether-portal-overlay">
-    <div class="portal-obsidian-stage">
-      <div class="stage-obsidian-arch">
-        <!-- Row 1: Top 4 Obsidian Blocks -->
-        <div class="obsidian-cell"></div>
-        <div class="obsidian-cell"></div>
-        <div class="obsidian-cell"></div>
-        <div class="obsidian-cell"></div>
-
-        <!-- Row 2: Obsidian, 2 Portal Energy, Obsidian -->
-        <div class="obsidian-cell"></div>
-        <div class="stage-portal-energy"></div>
-        <div class="stage-portal-energy"></div>
-        <div class="obsidian-cell"></div>
-
-        <!-- Row 3: Obsidian, 2 Portal Energy, Obsidian -->
-        <div class="obsidian-cell"></div>
-        <div class="stage-portal-energy"></div>
-        <div class="stage-portal-energy"></div>
-        <div class="obsidian-cell"></div>
-
-        <!-- Row 4: Obsidian, 2 Portal Energy, Obsidian -->
-        <div class="obsidian-cell"></div>
-        <div class="stage-portal-energy"></div>
-        <div class="stage-portal-energy"></div>
-        <div class="obsidian-cell"></div>
-
-        <!-- Row 5: Bottom 4 Obsidian Blocks -->
-        <div class="obsidian-cell"></div>
-        <div class="obsidian-cell"></div>
-        <div class="obsidian-cell"></div>
-        <div class="obsidian-cell"></div>
-      </div>
-
-      <div class="portal-status-text-hud">
-        <div class="portal-hud-main">ENTERING THE NETHER...</div>
-        <div class="portal-hud-sub">Obsidian Vortex Active // Scroll Locked</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FULLSCREEN REALISTIC END PORTAL TELEPORT OVERLAY -->
-  <div id="end-portal-overlay">
-    <div class="stage-end-portal-frame">
-      <!-- 3x3 End Portal: 8 Frame Blocks with Eyes of Ender, Center Void -->
-      <div class="end-frame-cell"></div>
-      <div class="end-frame-cell"></div>
-      <div class="end-frame-cell"></div>
-
-      <div class="end-frame-cell"></div>
-      <div class="stage-end-void"></div>
-      <div class="end-frame-cell"></div>
-
-      <div class="end-frame-cell"></div>
-      <div class="end-frame-cell"></div>
-      <div class="end-frame-cell"></div>
-    </div>
-
-    <div class="portal-status-text-hud">
-      <div class="portal-hud-main" style="color: #55ffff; text-shadow: 0 0 20px #55ffff, 3px 3px 0 #000;">ENTERING THE END...</div>
-      <div class="portal-hud-sub" style="color: #dcb3ff;">Ender Pearl Teleport Active // Scroll Locked</div>
-    </div>
-  </div>
-
-  <!-- TOP MINECRAFT HUD -->
+  <!-- TOP HUD -->
   <header class="mc-hud">
     <div class="hud-left">
       <div class="player-nametag">
-        <span class="player-rank">[ADMIN]</span>
+        <span class="player-rank">[DEV]</span>
         <span class="player-name">Kanav</span>
       </div>
 
@@ -163,7 +89,7 @@
         <span>🔊</span> <span id="sound-status-text">SFX: ON</span>
       </button>
 
-      <button class="hud-btn" id="chat-toggle-btn" title="Press T for Minecraft Chat">
+      <button class="hud-btn" id="chat-toggle-btn" title="Press T for Terminal Chat">
         <span>💬</span> <span>CHAT [T]</span>
       </button>
     </div>
@@ -174,17 +100,17 @@
 
     <!-- HERO SECTION -->
     <section id="hero" class="hero-card">
-      <img src="nether_lab_banner.png" alt="Minecraft Nether Portal and AI Laboratory Banner" class="hero-banner-img" onerror="this.src='nether_lab_banner.jpg'">
+      <img src="nether_lab_banner.png" alt="Nether Portal and AI Laboratory Banner" class="hero-banner-img" onerror="this.src='nether_lab_banner.jpg'">
       
       <div class="hero-content">
-        <!-- Bouncing Minecraft Splash Text -->
+        <!-- Splash Text -->
         <div class="minecraft-splash-wrap">
           <span class="minecraft-splash" id="minecraft-splash" title="Click me for new splash text!">Also try AI &amp; ML!</span>
         </div>
 
         <!-- Player Avatar Frame -->
         <div class="avatar-frame">
-          <img src="avatar.png" alt="Kanav's Minecraft AI Pixel Art Avatar" class="avatar-img" onerror="this.src='avatar.jpg'">
+          <img src="avatar.png" alt="Kanav's AI Pixel Art Avatar" class="avatar-img" onerror="this.src='avatar.jpg'">
           <div class="avatar-badge">LVL 18 DEV</div>
         </div>
 
@@ -204,12 +130,12 @@
 
         <!-- Fast Action Dimensional Warping -->
         <div class="hero-teleport-box">
-          <div class="teleport-box-title">⚡ REALM PORTAL</div>
+          <div class="teleport-box-title">⚡ REALM NAVIGATION</div>
           <button class="mc-btn nether-style" data-teleport-target="achievements" data-warp="portal">
-            <span>🔥</span> Enter Nether Portal
+            <span>🔥</span> Warp to Nether
           </button>
           <button class="mc-btn pearl-style" data-teleport-target="experience" data-warp="pearl">
-            <span>🔮</span> Throw Ender Pearl
+            <span>🔮</span> Warp to Skills
           </button>
         </div>
       </div>
@@ -435,50 +361,18 @@
       </div>
     </section>
 
-    <!-- IN-FLOW DIMENSION GATEWAY 1: ACTUAL OBSIDIAN NETHER PORTAL -->
-    <div id="nether-gateway" class="dimension-gateway-banner">
-      <div style="display: flex; align-items: center; gap: 20px;">
-        <!-- 4x5 Obsidian Portal Frame -->
-        <div class="gateway-obsidian-portal" title="Real 4x5 Obsidian Portal Arch">
-          <div class="obsidian-cell"></div>
-          <div class="obsidian-cell"></div>
-          <div class="obsidian-cell"></div>
-          <div class="obsidian-cell"></div>
-
-          <div class="obsidian-cell"></div>
-          <div class="portal-energy-cell"></div>
-          <div class="portal-energy-cell"></div>
-          <div class="obsidian-cell"></div>
-
-          <div class="obsidian-cell"></div>
-          <div class="portal-energy-cell"></div>
-          <div class="portal-energy-cell"></div>
-          <div class="obsidian-cell"></div>
-
-          <div class="obsidian-cell"></div>
-          <div class="portal-energy-cell"></div>
-          <div class="portal-energy-cell"></div>
-          <div class="obsidian-cell"></div>
-
-          <div class="obsidian-cell"></div>
-          <div class="obsidian-cell"></div>
-          <div class="obsidian-cell"></div>
-          <div class="obsidian-cell"></div>
-        </div>
-
-        <div>
-          <h3 style="font-size: 13px; color: #ff5555; text-shadow: 2px 2px 0 #000; margin-bottom: 6px;">
-            🔥 THE NETHER GATEWAY // OBSIDIAN PORTAL
-          </h3>
-          <p style="font-family: var(--font-silk); font-size: 11px; color: #bbb; line-height: 1.6;">
-            Constructed with 14 obsidian blocks and ignited with flint. Crossing or scrolling into this portal initiates an unskippable dimensional warp into the Nether Fortress.
-          </p>
+    <!-- IN-FLOW DIMENSION TRANSITION: NETHER REALM -->
+    <div class="dimension-transition-divider">
+      <div class="divider-left">
+        <div class="divider-badge-icon">🔥</div>
+        <div class="divider-text">
+          <h3>REALM SHIFT: THE NETHER // ACHIEVEMENTS ARENA</h3>
+          <p>Advancing into competitive milestones: Delhi State Table Tennis ranking, CS Championship, and Robotics builds.</p>
         </div>
       </div>
-
       <div>
         <button class="mc-btn nether-style" data-teleport-target="achievements" data-warp="portal">
-          <span>🔥</span> Ignite &amp; Enter Portal
+          <span>🔥</span> Jump to Achievements
         </button>
       </div>
     </div>
@@ -498,8 +392,8 @@
             <span class="nether-banner-text">
               🔥 <strong>HIGH LEVEL LOOT UNLOCKED:</strong> Elite athletic ranking, tournament hosting leadership, and engineering competition builds.
             </span>
-            <button class="mc-btn pearl-style" data-teleport-target="end-gateway" data-warp="endportal">
-              <span>🔮</span> Warp to End Gateway
+            <button class="mc-btn pearl-style" data-teleport-target="hobbies" data-warp="pearl">
+              <span>🔮</span> Warp to End Realm
             </button>
           </div>
 
@@ -622,37 +516,18 @@
       </div>
     </section>
 
-    <!-- IN-FLOW DIMENSION GATEWAY 2: ACTUAL END PORTAL WITH EYES OF ENDER -->
-    <div id="end-gateway" class="dimension-gateway-banner">
-      <div style="display: flex; align-items: center; gap: 20px;">
-        <!-- 3x3 End Portal Frame with Eyes of Ender & Cosmic Void -->
-        <div class="gateway-end-portal" title="Real 3x3 End Portal Frame">
-          <div class="end-frame-cell"></div>
-          <div class="end-frame-cell"></div>
-          <div class="end-frame-cell"></div>
-
-          <div class="end-frame-cell"></div>
-          <div class="end-void-cell"></div>
-          <div class="end-frame-cell"></div>
-
-          <div class="end-frame-cell"></div>
-          <div class="end-frame-cell"></div>
-          <div class="end-frame-cell"></div>
-        </div>
-
-        <div>
-          <h3 style="font-size: 13px; color: #55ffff; text-shadow: 2px 2px 0 #000; margin-bottom: 6px;">
-            🌌 THE END PORTAL // CELESTIAL ABYSS
-          </h3>
-          <p style="font-family: var(--font-silk); font-size: 11px; color: #bbb; line-height: 1.6;">
-            12 End Portal frames loaded with Eyes of Ender surrounding an infinite cosmic starry abyss. Crossing throws an Ender Pearl and warps you into the End realm.
-          </p>
+    <!-- IN-FLOW DIMENSION TRANSITION: THE END -->
+    <div class="dimension-transition-divider">
+      <div class="divider-left">
+        <div class="divider-badge-icon">🌌</div>
+        <div class="divider-text">
+          <h3>REALM SHIFT: THE END // FUTURE &amp; HOBBIES</h3>
+          <p>Exploring high-speed reflexes, computer system hardware, and interactive machine learning neural models.</p>
         </div>
       </div>
-
       <div>
-        <button class="mc-btn pearl-style" data-teleport-target="hobbies" data-warp="endportal">
-          <span>🔮</span> Enter End Portal
+        <button class="mc-btn pearl-style" data-teleport-target="hobbies" data-warp="pearl">
+          <span>🔮</span> Jump to Hobbies &amp; AI
         </button>
       </div>
     </div>
@@ -809,7 +684,7 @@
 
             <div class="minecraft-chat-copybox">
               <div>
-                <div style="font-size: 9px; color: #aaa; margin-bottom: 4px;">MINECRAFT IN-GAME DIRECT MESSAGE COMMAND:</div>
+                <div style="font-size: 9px; color: #aaa; margin-bottom: 4px;">DIRECT MESSAGE COMMAND:</div>
                 <div class="copy-cmd-text">/msg Kanav "Hey! Saw your portfolio, let's connect!"</div>
               </div>
               <button class="mc-btn" id="copy-cmd-btn">📋 COPY CMD</button>
@@ -821,9 +696,8 @@
 
   </main>
 
-  <!-- FIXED BOTTOM MINECRAFT HOTBAR (9 SLOTS) -->
-  <nav class="mc-hotbar-container" aria-label="Minecraft Inventory Navigation">
-    <!-- Floating Selected Item Name Tooltip -->
+  <!-- FIXED BOTTOM HOTBAR (9 SLOTS) -->
+  <nav class="mc-hotbar-container" aria-label="Inventory Navigation">
     <div id="hotbar-item-name">Compass of Identity</div>
 
     <div class="hotbar-slots">
@@ -875,7 +749,7 @@
       </div>
 
       <!-- Slot 4: Hobbies & AI (Ender Pearl) -->
-      <div class="hotbar-slot" data-target="hobbies" data-warp="endportal" title="Slot 4: Hobbies & AI">
+      <div class="hotbar-slot" data-target="hobbies" data-warp="pearl" title="Slot 4: Hobbies & AI">
         <span class="slot-key">4</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <circle cx="8" cy="8" r="6" fill="#0d5c63" stroke="#000" stroke-width="1"/>
@@ -885,7 +759,7 @@
         <span class="slot-count">16</span>
         <div class="slot-tooltip">
           <span class="tooltip-title">Ender Pearl</span>
-          <span class="tooltip-lore">Instant Teleport to The End Realm</span>
+          <span class="tooltip-lore">Instant Warp to The End Realm</span>
         </div>
       </div>
 
@@ -903,8 +777,8 @@
         </div>
       </div>
 
-      <!-- Slot 6: Obsidian Nether Portal -->
-      <div class="hotbar-slot" data-target="nether-gateway" data-warp="portal" title="Slot 6: Nether Portal Gateway">
+      <!-- Slot 6: Nether Portal Frame -->
+      <div class="hotbar-slot" data-target="achievements" data-warp="portal" title="Slot 6: Nether Portal">
         <span class="slot-key">6</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <rect x="2" y="1" width="12" height="14" fill="#1b1226"/>
@@ -913,12 +787,12 @@
         </svg>
         <span class="slot-count">14</span>
         <div class="slot-tooltip">
-          <span class="tooltip-title">Obsidian Nether Portal</span>
-          <span class="tooltip-lore">Dimensional Arch to Achievements</span>
+          <span class="tooltip-title">Nether Portal</span>
+          <span class="tooltip-lore">Warp to Achievements</span>
         </div>
       </div>
 
-      <!-- Slot 7: AI Redstone Core -->
+      <!-- Slot 7: AI Matrix Core -->
       <div class="hotbar-slot" data-target="hobbies" data-warp="pearl" title="Slot 7: AI/ML Matrix">
         <span class="slot-key">7</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
@@ -948,7 +822,7 @@
       </div>
 
       <!-- Slot 9: Biome Warp Overworld -->
-      <div class="hotbar-slot" data-target="about" data-warp="portal" title="Slot 9: Return to Overworld">
+      <div class="hotbar-slot" data-target="about" data-warp="pearl" title="Slot 9: Return to Overworld">
         <span class="slot-key">9</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <rect width="16" height="16" fill="#4d8b4d"/>
@@ -957,14 +831,14 @@
         </svg>
         <span class="slot-count">1</span>
         <div class="slot-tooltip">
-          <span class="tooltip-title">Overworld Spawn Stone</span>
-          <span class="tooltip-lore">Teleport back to Main Base</span>
+          <span class="tooltip-title">Overworld Base</span>
+          <span class="tooltip-lore">Warp back to Main Profile</span>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- MINECRAFT INVENTORY GUI MODAL (TRIGGERED WITH 'E' KEY OR INV BUTTON) -->
+  <!-- INVENTORY GUI MODAL ('E' KEY OR INV BUTTON) -->
   <div id="inventory-modal">
     <div class="mc-inv-dialog">
       <div class="inv-header">
@@ -1038,12 +912,12 @@
     </div>
   </div>
 
-  <!-- MINECRAFT CHAT MODAL (TRIGGERED WITH 'T' OR CHAT BUTTON) -->
+  <!-- CHAT MODAL ('T' KEY OR CHAT BUTTON) -->
   <div id="chat-modal">
     <div class="chat-history" id="chat-history-content">
-      <div class="chat-msg system">[System] Connected to Kanav's Portfolio Server (v1.20.x).</div>
+      <div class="chat-msg system">[System] Connected to Kanav's Portfolio Server.</div>
       <div class="chat-msg system">[System] Press E for Inventory, T for Chat, 1-9 for Hotbar.</div>
-      <div class="chat-msg"><span class="sender">&lt;Kanav&gt;</span> Welcome! Scroll down or click the Nether &amp; End portals to travel across realms!</div>
+      <div class="chat-msg"><span class="sender">&lt;Kanav&gt;</span> Welcome! Scroll naturally or click the hotbar to navigate between sections.</div>
     </div>
     <div class="chat-input-bar">
       <span style="color:var(--mc-yellow);">&gt;</span>

@@ -1,95 +1,9 @@
-// Minecraft Portfolio Engine - Kanav (app.js)
-// Complete with Authentic Obsidian Nether Portal, Cosmic End Portal, Scroll Lock & Advancements
+// Kanav's Portfolio Engine (app.js)
+// Smooth, responsive, non-blocking dimension switches with ambient particles & audio
 
 document.addEventListener("DOMContentLoaded", () => {
   // -------------------------------------------------------------
-  // 1. Scroll Locking Mechanism (Guarantees zero scroll during warps)
-  // -------------------------------------------------------------
-  let isScrollLocked = false;
-
-  function preventDefaultWheel(e) {
-    if (isScrollLocked) e.preventDefault();
-  }
-  function preventDefaultTouch(e) {
-    if (isScrollLocked) e.preventDefault();
-  }
-  function preventDefaultKeys(e) {
-    if (!isScrollLocked) return;
-    if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(e.key)) {
-      e.preventDefault();
-    }
-  }
-
-  function lockScroll() {
-    isScrollLocked = true;
-    document.documentElement.classList.add("mc-scroll-locked");
-    document.body.classList.add("mc-scroll-locked");
-    window.addEventListener("wheel", preventDefaultWheel, { passive: false });
-    window.addEventListener("touchmove", preventDefaultTouch, { passive: false });
-    window.addEventListener("keydown", preventDefaultKeys, { passive: false });
-  }
-
-  function unlockScroll() {
-    isScrollLocked = false;
-    document.documentElement.classList.remove("mc-scroll-locked");
-    document.body.classList.remove("mc-scroll-locked");
-    window.removeEventListener("wheel", preventDefaultWheel);
-    window.removeEventListener("touchmove", preventDefaultTouch);
-    window.removeEventListener("keydown", preventDefaultKeys);
-  }
-
-  // -------------------------------------------------------------
-  // 2. Minecraft Advancement Toast System
-  // -------------------------------------------------------------
-  const toastEl = document.getElementById("advancement-toast");
-  const toastIcon = document.getElementById("advancement-icon");
-  const toastLabel = document.getElementById("advancement-label");
-  const toastTitle = document.getElementById("advancement-title");
-  let toastTimer = null;
-
-  function showAdvancement(icon, title, label = "ADVANCEMENT MADE!") {
-    if (!toastEl) return;
-    clearTimeout(toastTimer);
-
-    toastIcon.textContent = icon;
-    toastLabel.textContent = label;
-    toastTitle.textContent = title;
-
-    toastEl.classList.add("show-advancement");
-    if (window.soundEngine && window.soundEngine.playAdvancement) {
-      window.soundEngine.playAdvancement();
-    }
-
-    toastTimer = setTimeout(() => {
-      toastEl.classList.remove("show-advancement");
-    }, 4000);
-  }
-
-  // -------------------------------------------------------------
-  // 3. Minecraft Title Screen Overlay (/title effect)
-  // -------------------------------------------------------------
-  const titleHud = document.getElementById("minecraft-title-hud");
-  const titleMain = document.getElementById("mc-title-main");
-  const titleSub = document.getElementById("mc-title-sub");
-  let titleTimer = null;
-
-  function showMinecraftTitle(mainText, subText, colorHex) {
-    if (!titleHud) return;
-    clearTimeout(titleTimer);
-
-    titleMain.textContent = mainText;
-    titleMain.style.color = colorHex;
-    titleSub.textContent = subText;
-
-    titleHud.classList.add("title-active");
-
-    titleTimer = setTimeout(() => {
-      titleHud.classList.remove("title-active");
-    }, 2200);
-  }
-
-  // -------------------------------------------------------------
-  // 4. Ambient Particle System (Canvas)
+  // 1. Ambient Particle System (Canvas)
   // -------------------------------------------------------------
   const ambientCanvas = document.getElementById("ambient-canvas");
   const ambientCtx = ambientCanvas.getContext("2d");
@@ -116,21 +30,21 @@ document.addEventListener("DOMContentLoaded", () => {
       this.size = Math.floor(Math.random() * 3) + 2;
 
       if (currentBiome === "overworld") {
-        this.vx = (Math.random() - 0.5) * 0.6;
-        this.vy = -Math.random() * 0.8 - 0.2;
-        this.color = Math.random() > 0.5 ? "rgba(85, 255, 85, 0.6)" : "rgba(85, 255, 255, 0.4)";
-        this.alpha = Math.random() * 0.6 + 0.2;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = -Math.random() * 0.7 - 0.2;
+        this.color = Math.random() > 0.5 ? "rgba(85, 255, 85, 0.55)" : "rgba(85, 255, 255, 0.45)";
+        this.alpha = Math.random() * 0.5 + 0.2;
       } else if (currentBiome === "nether") {
-        this.vx = (Math.random() - 0.5) * 1.5;
-        this.vy = -Math.random() * 2.8 - 1.0;
-        this.color = Math.random() > 0.4 ? "rgba(255, 85, 0, 0.85)" : "rgba(255, 215, 0, 0.75)";
-        this.alpha = Math.random() * 0.85 + 0.2;
+        this.vx = (Math.random() - 0.5) * 1.2;
+        this.vy = -Math.random() * 2.2 - 0.8;
+        this.color = Math.random() > 0.4 ? "rgba(255, 85, 0, 0.75)" : "rgba(255, 200, 0, 0.65)";
+        this.alpha = Math.random() * 0.7 + 0.2;
       } else {
         // The End
-        this.vx = (Math.random() - 0.5) * 0.5;
-        this.vy = (Math.random() - 0.5) * 0.5;
-        this.color = Math.random() > 0.5 ? "rgba(213, 104, 255, 0.75)" : "rgba(85, 255, 255, 0.65)";
-        this.alpha = Math.random() * 0.75 + 0.25;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.color = Math.random() > 0.5 ? "rgba(213, 104, 255, 0.7)" : "rgba(85, 255, 255, 0.6)";
+        this.alpha = Math.random() * 0.6 + 0.25;
       }
       this.decay = Math.random() * 0.005 + 0.002;
     }
@@ -153,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < 55; i++) {
     particles.push(new AmbientParticle());
   }
 
@@ -168,7 +82,67 @@ document.addEventListener("DOMContentLoaded", () => {
   animateAmbient();
 
   // -------------------------------------------------------------
-  // 5. Ender Pearl Throw & Flight FX Canvas
+  // 2. Sleek Dimension Transition Pill Notification
+  // -------------------------------------------------------------
+  const pillNotice = document.getElementById("dimension-pill-notice");
+  const pillIcon = document.getElementById("dimension-pill-icon");
+  const pillText = document.getElementById("dimension-pill-text");
+  let pillTimer = null;
+
+  function showDimensionPill(icon, text) {
+    if (!pillNotice) return;
+    clearTimeout(pillTimer);
+    pillIcon.textContent = icon;
+    pillText.textContent = text;
+    pillNotice.classList.add("pill-active");
+    pillTimer = setTimeout(() => {
+      pillNotice.classList.remove("pill-active");
+    }, 2000);
+  }
+
+  // -------------------------------------------------------------
+  // 3. Biome / Dimension Management (Smooth Color & Atmosphere Shift)
+  // -------------------------------------------------------------
+  const bgTextureLayer = document.getElementById("mc-bg-texture-layer");
+  const biomeText = document.getElementById("current-biome-text");
+  const teleportFlash = document.getElementById("teleport-flash");
+
+  function setBiome(biome, triggerSound = true, showNotice = true) {
+    if (currentBiome === biome) return;
+    currentBiome = biome;
+
+    document.body.classList.remove("biome-overworld", "biome-nether", "biome-end");
+    document.body.classList.add(`biome-${biome}`);
+
+    if (bgTextureLayer) {
+      bgTextureLayer.classList.remove("mc-dirt-bg", "mc-cobble-bg", "mc-netherrack-bg", "mc-endstone-bg");
+      if (biome === "nether") {
+        bgTextureLayer.classList.add("mc-netherrack-bg");
+      } else if (biome === "end") {
+        bgTextureLayer.classList.add("mc-endstone-bg");
+      } else {
+        bgTextureLayer.classList.add("mc-dirt-bg");
+      }
+    }
+
+    if (biomeText) {
+      biomeText.textContent = biome.charAt(0).toUpperCase() + biome.slice(1);
+    }
+
+    if (biome === "nether") {
+      if (triggerSound) window.soundEngine.playPortalWarp();
+      if (showNotice) showDimensionPill("🔥", "Entered The Nether Fortress");
+    } else if (biome === "end") {
+      if (triggerSound) window.soundEngine.playPearlTeleport();
+      if (showNotice) showDimensionPill("🌌", "Entered The End Celestial Void");
+    } else {
+      if (triggerSound) window.soundEngine.playDing();
+      if (showNotice) showDimensionPill("🌍", "Entered The Overworld Base");
+    }
+  }
+
+  // -------------------------------------------------------------
+  // 4. Quick Ender Pearl / Warp FX (Non-blocking Particle Streak)
   // -------------------------------------------------------------
   const fxCanvas = document.getElementById("pearl-fx-canvas");
   const fxCtx = fxCanvas.getContext("2d");
@@ -180,98 +154,42 @@ document.addEventListener("DOMContentLoaded", () => {
     fxCanvas.height = window.innerHeight;
   });
 
-  function throwEnderPearl(startX, startY, targetEl, onComplete) {
-    if (!targetEl) return;
-    lockScroll(); // Lock scroll during teleport
-
-    const targetRect = targetEl.getBoundingClientRect();
-    const destX = targetRect.left + targetRect.width / 2;
-    const destY = targetRect.top + 80;
-
-    window.soundEngine.playPearlThrow();
-
-    const totalDuration = 550;
-    const startTime = performance.now();
-    const pearlTrail = [];
-    const peakHeight = Math.min(startY, destY) - 180;
-
-    function renderPearlFlight(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / totalDuration);
-
-      const p0 = { x: startX, y: startY };
-      const p1 = { x: (startX + destX) / 2, y: peakHeight };
-      const p2 = { x: destX, y: destY };
-
-      const t = progress;
-      const curX = (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x;
-      const curY = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y;
-
-      for (let i = 0; i < 2; i++) {
-        pearlTrail.push({
-          x: curX + (Math.random() - 0.5) * 8,
-          y: curY + (Math.random() - 0.5) * 8,
-          vx: (Math.random() - 0.5) * 2,
-          vy: (Math.random() - 0.5) * 2,
-          size: Math.floor(Math.random() * 4) + 2,
-          color: Math.random() > 0.4 ? "#00ffff" : "#aa00aa",
-          alpha: 1.0,
-          decay: 0.04
-        });
-      }
-
-      fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
-
-      for (let i = pearlTrail.length - 1; i >= 0; i--) {
-        const pt = pearlTrail[i];
-        pt.x += pt.vx;
-        pt.y += pt.vy;
-        pt.alpha -= pt.decay;
-        if (pt.alpha <= 0) {
-          pearlTrail.splice(i, 1);
-          continue;
-        }
-        fxCtx.fillStyle = pt.color;
-        fxCtx.globalAlpha = pt.alpha;
-        fxCtx.fillRect(Math.floor(pt.x), Math.floor(pt.y), pt.size, pt.size);
-      }
-
-      fxCtx.globalAlpha = 1.0;
-      fxCtx.fillStyle = "#000000";
-      fxCtx.fillRect(curX - 6, curY - 6, 12, 12);
-      fxCtx.fillStyle = "#0a5d62";
-      fxCtx.fillRect(curX - 5, curY - 5, 10, 10);
-      fxCtx.fillStyle = "#27cbd7";
-      fxCtx.fillRect(curX - 4, curY - 4, 8, 8);
-      fxCtx.fillStyle = "#ffffff";
-      fxCtx.fillRect(curX - 2, curY - 2, 3, 3);
-
-      if (progress < 1) {
-        requestAnimationFrame(renderPearlFlight);
-      } else {
-        triggerPearlImpact(destX, destY, targetEl, onComplete);
-      }
+  function playWarpEffect(targetEl, soundType = "pearl") {
+    if (soundType === "portal") {
+      window.soundEngine.playPortalWarp();
+    } else {
+      window.soundEngine.playPearlTeleport();
     }
 
-    requestAnimationFrame(renderPearlFlight);
-  }
+    // Flash screen subtly
+    if (teleportFlash) {
+      teleportFlash.classList.add("flash-active");
+      setTimeout(() => {
+        teleportFlash.classList.remove("flash-active");
+      }, 160);
+    }
 
-  function triggerPearlImpact(x, y, targetEl, onComplete) {
-    window.soundEngine.playPearlTeleport();
+    // Smooth native scroll
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
+    // Burst particles at center
     const burstParticles = [];
-    for (let i = 0; i < 40; i++) {
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    for (let i = 0; i < 28; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 7 + 2;
+      const speed = Math.random() * 6 + 2;
       burstParticles.push({
-        x: x,
-        y: y,
+        x: centerX,
+        y: centerY,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        size: Math.floor(Math.random() * 5) + 3,
-        color: Math.random() > 0.5 ? "#24e0ec" : "#bf38ff",
+        size: Math.floor(Math.random() * 4) + 2,
+        color: soundType === "portal" ? "#ff5555" : "#55ffff",
         alpha: 1.0,
-        decay: 0.035
+        decay: 0.04
       });
     }
 
@@ -296,143 +214,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     renderBurst();
-
-    // Flash & Camera Shake
-    const flashEl = document.getElementById("teleport-flash");
-    flashEl.classList.add("flash-active");
-    document.body.classList.add("camera-shake");
-
-    setTimeout(() => {
-      flashEl.classList.remove("flash-active");
-    }, 200);
-
-    setTimeout(() => {
-      document.body.classList.remove("camera-shake");
-    }, 350);
-
-    // Scroll to target and unlock
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-
-    setTimeout(() => {
-      unlockScroll();
-      if (onComplete) onComplete();
-    }, 450);
   }
 
   // -------------------------------------------------------------
-  // 6. Realistic Fullscreen Obsidian Nether Portal Teleportation
-  // -------------------------------------------------------------
-  const netherPortalOverlay = document.getElementById("nether-portal-overlay");
-  const bgTextureLayer = document.getElementById("mc-bg-texture-layer");
-  const biomeText = document.getElementById("current-biome-text");
-
-  function triggerNetherPortal(targetBiome = "nether", targetSectionId = "achievements") {
-    lockScroll(); // Disable all user scrolling until animation is done!
-    window.soundEngine.playPortalWarp();
-
-    netherPortalOverlay.classList.add("portal-active");
-
-    setTimeout(() => {
-      setBiome(targetBiome, false, true);
-      showAdvancement("🔥", "We Need to Go Deeper");
-
-      const targetEl = document.getElementById(targetSectionId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: "auto", block: "start" });
-      }
-
-      setTimeout(() => {
-        netherPortalOverlay.classList.remove("portal-active");
-        window.soundEngine.playDing();
-        unlockScroll(); // Finished! Unlock scroll
-      }, 700);
-    }, 1200);
-  }
-
-  // -------------------------------------------------------------
-  // 7. Realistic Fullscreen End Portal Teleportation
-  // -------------------------------------------------------------
-  const endPortalOverlay = document.getElementById("end-portal-overlay");
-
-  function triggerEndPortal(targetSectionId = "hobbies") {
-    lockScroll(); // Disable user scrolling
-    window.soundEngine.playPearlThrow();
-
-    endPortalOverlay.classList.add("end-portal-active");
-
-    setTimeout(() => {
-      window.soundEngine.playPearlTeleport();
-      setBiome("end", false, true);
-      showAdvancement("👁️", "The End?");
-
-      const targetEl = document.getElementById(targetSectionId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: "auto", block: "start" });
-      }
-
-      setTimeout(() => {
-        endPortalOverlay.classList.remove("end-portal-active");
-        window.soundEngine.playDing();
-        unlockScroll(); // Finished! Unlock scroll
-      }, 700);
-    }, 1200);
-  }
-
-  function setBiome(biome, triggerSound = true, showTitle = true) {
-    currentBiome = biome;
-
-    document.body.classList.remove("biome-overworld", "biome-nether", "biome-end");
-    document.body.classList.add(`biome-${biome}`);
-
-    if (bgTextureLayer) {
-      bgTextureLayer.classList.remove("mc-dirt-bg", "mc-cobble-bg", "mc-netherrack-bg", "mc-endstone-bg");
-      if (biome === "nether") {
-        bgTextureLayer.classList.add("mc-netherrack-bg");
-      } else if (biome === "end") {
-        bgTextureLayer.classList.add("mc-endstone-bg");
-      } else {
-        bgTextureLayer.classList.add("mc-dirt-bg");
-      }
-    }
-
-    if (biomeText) {
-      biomeText.textContent = biome.charAt(0).toUpperCase() + biome.slice(1);
-    }
-
-    if (biome === "nether") {
-      if (triggerSound) window.soundEngine.playPortalWarp();
-      if (showTitle) showMinecraftTitle("THE NETHER", "Entering Nether Fortress", "#ff5555");
-    } else if (biome === "end") {
-      if (triggerSound) window.soundEngine.playPearlTeleport();
-      if (showTitle) showMinecraftTitle("THE END", "Entering Celestial Void", "#d568ff");
-    } else {
-      if (triggerSound) window.soundEngine.playDing();
-      if (showTitle) showMinecraftTitle("THE OVERWORLD", "Plains Base Camp", "#55ff55");
-    }
-  }
-
-  // -------------------------------------------------------------
-  // 8. Automatic Scroll-Triggered Gateway Interception & Scroll Lock
+  // 5. Natural Scroll Observer (Synchronizes Biome & Hotbar)
   // -------------------------------------------------------------
   const trackedSections = [
     { id: "hero", biome: "overworld", slotIndex: 0 },
     { id: "about", biome: "overworld", slotIndex: 0 },
     { id: "experience", biome: "overworld", slotIndex: 1 },
-    { id: "nether-gateway", biome: "nether", isNetherGateway: true, slotIndex: 2 },
     { id: "achievements", biome: "nether", slotIndex: 2 },
-    { id: "end-gateway", biome: "end", isEndGateway: true, slotIndex: 3 },
     { id: "hobbies", biome: "end", slotIndex: 3 },
     { id: "contact", biome: "overworld", slotIndex: 7 }
   ];
 
-  let lastScrollWarpTime = 0;
+  let lastBiomeShiftTime = 0;
 
   const sectionObserver = new IntersectionObserver(
     (entries) => {
-      if (isScrollLocked) return;
-
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
 
@@ -440,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const config = trackedSections.find((s) => s.id === sectionId);
         if (!config) return;
 
-        // Hotbar Slot Sync
+        // Synchronize Hotbar Active Slot
         if (config.slotIndex !== undefined) {
           hotbarSlots.forEach((s) => s.classList.remove("active"));
           if (hotbarSlots[config.slotIndex]) {
@@ -448,21 +247,15 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
+        // Smooth Biome Switch when crossing sections
         const now = performance.now();
-        if (config.biome !== currentBiome && now - lastScrollWarpTime > 2000) {
-          lastScrollWarpTime = now;
-
-          if (config.isNetherGateway || (config.biome === "nether" && currentBiome === "overworld")) {
-            triggerNetherPortal("nether", "achievements");
-          } else if (config.isEndGateway || (config.biome === "end" && currentBiome === "nether")) {
-            triggerEndPortal("hobbies");
-          } else if (config.biome === "overworld") {
-            setBiome("overworld", true, true);
-          }
+        if (config.biome !== currentBiome && now - lastBiomeShiftTime > 1200) {
+          lastBiomeShiftTime = now;
+          setBiome(config.biome, true, true);
         }
       });
     },
-    { threshold: 0.25 }
+    { threshold: 0.3 }
   );
 
   trackedSections.forEach((s) => {
@@ -471,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -------------------------------------------------------------
-  // 9. Hotbar Navigation (1-9 & Click) + Item Name Tooltip HUD
+  // 6. Hotbar Navigation (1-9 & Click) + Item Name Tooltip HUD
   // -------------------------------------------------------------
   const hotbarSlots = document.querySelectorAll(".hotbar-slot");
   const itemNameHud = document.getElementById("hotbar-item-name");
@@ -484,11 +277,10 @@ document.addEventListener("DOMContentLoaded", () => {
     itemNameHud.classList.add("item-name-show");
     itemNameTimer = setTimeout(() => {
       itemNameHud.classList.remove("item-name-show");
-    }, 2000);
+    }, 1800);
   }
 
-  function activateHotbarSlot(slotIndex, originEvent) {
-    if (isScrollLocked) return;
+  function activateHotbarSlot(slotIndex) {
     hotbarSlots.forEach((s) => s.classList.remove("active"));
     const selectedSlot = hotbarSlots[slotIndex];
     if (!selectedSlot) return;
@@ -500,26 +292,13 @@ document.addEventListener("DOMContentLoaded", () => {
     showItemName(slotName);
 
     const targetEl = document.getElementById(targetId);
-
-    if (warpType === "portal") {
-      triggerNetherPortal("nether", targetId);
-    } else if (warpType === "endportal") {
-      triggerEndPortal(targetId);
-    } else {
-      let startX = window.innerWidth / 2;
-      let startY = window.innerHeight - 60;
-      if (originEvent && originEvent.clientX) {
-        startX = originEvent.clientX;
-        startY = originEvent.clientY;
-      }
-      throwEnderPearl(startX, startY, targetEl);
+    if (targetEl) {
+      playWarpEffect(targetEl, warpType === "portal" ? "portal" : "pearl");
     }
   }
 
   hotbarSlots.forEach((slot, index) => {
-    slot.addEventListener("click", (e) => {
-      activateHotbarSlot(index, e);
-    });
+    slot.addEventListener("click", () => activateHotbarSlot(index));
     slot.addEventListener("mouseenter", () => {
       const slotName = slot.querySelector(".tooltip-title")?.textContent;
       if (slotName) showItemName(slotName);
@@ -527,14 +306,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -------------------------------------------------------------
-  // 10. Minecraft Splash Text Click Interaction
+  // 7. Interactive Warp Buttons Throughout Content
+  // -------------------------------------------------------------
+  document.querySelectorAll("[data-teleport-target]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.getAttribute("data-teleport-target");
+      const warpType = btn.getAttribute("data-warp") || (btn.classList.contains("nether-style") ? "portal" : "pearl");
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        playWarpEffect(targetEl, warpType);
+      }
+    });
+  });
+
+  // -------------------------------------------------------------
+  // 8. Minecraft Splash Text Click Interaction
   // -------------------------------------------------------------
   const splashQuotes = [
     "Also try AI & ML!",
-    "100% Redstone Compatible!",
+    "100% Redstone Powered!",
     "20.0 TPS Zero Lag!",
     "Never dig straight down!",
-    "Delhi State TT Champion!",
+    "Delhi State TT Player!",
     "Spigot & Paper tuned!",
     "Autonomous Robotics!",
     "Beware of Creepers!",
@@ -551,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------------------------------------
-  // 11. Minecraft Inventory GUI Modal ('E' key or Inventory Button)
+  // 9. Inventory GUI Modal ('E' Key or HUD Button)
   // -------------------------------------------------------------
   const invModal = document.getElementById("inventory-modal");
   const invCloseBtn = document.getElementById("inv-close-btn");
@@ -578,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------------------------------------
-  // 12. Keyboard Controls (1-9, E, T, Esc)
+  // 10. Keyboard Shortcuts (1-9, E, T, Esc)
   // -------------------------------------------------------------
   window.addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
@@ -589,7 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key >= "1" && e.key <= "9") {
       const idx = parseInt(e.key) - 1;
       if (idx < hotbarSlots.length) {
-        activateHotbarSlot(idx, null);
+        activateHotbarSlot(idx);
       }
     }
 
@@ -610,27 +403,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -------------------------------------------------------------
-  // 13. Gateway Buttons & Content Triggers
+  // 11. Audio Toggle & Sound Feedback
   // -------------------------------------------------------------
-  document.querySelectorAll("[data-teleport-target]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      if (isScrollLocked) return;
-      const targetId = btn.getAttribute("data-teleport-target");
-      const warpType = btn.getAttribute("data-warp");
-
-      if (warpType === "portal") {
-        triggerNetherPortal("nether", targetId);
-      } else if (warpType === "endportal") {
-        triggerEndPortal(targetId);
-      } else {
-        const rect = btn.getBoundingClientRect();
-        const targetEl = document.getElementById(targetId);
-        throwEnderPearl(rect.left + rect.width / 2, rect.top + rect.height / 2, targetEl);
-      }
-    });
-  });
-
-  // Sound Toggle Button
   const soundToggleBtn = document.getElementById("sound-toggle-btn");
   const soundStatusText = document.getElementById("sound-status-text");
   if (soundToggleBtn) {
@@ -661,7 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -------------------------------------------------------------
-  // 14. Server Console Simulator
+  // 12. Server Console Simulator
   // -------------------------------------------------------------
   const consoleOutput = document.getElementById("server-console-output");
   const consoleInput = document.getElementById("console-user-input");
@@ -701,9 +475,11 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (lower.startsWith("warp ")) {
       const dim = lower.split(" ")[1];
       if (dim === "nether") {
-        triggerNetherPortal("nether", "achievements");
+        setBiome("nether", true, true);
+        document.getElementById("achievements")?.scrollIntoView({ behavior: "smooth" });
       } else if (dim === "end") {
-        triggerEndPortal("hobbies");
+        setBiome("end", true, true);
+        document.getElementById("hobbies")?.scrollIntoView({ behavior: "smooth" });
       } else if (dim === "overworld") {
         setBiome("overworld", true, true);
         document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
@@ -741,7 +517,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -------------------------------------------------------------
-  // 15. AI / ML Neural Visualizer & Weight Matrix
+  // 13. AI / ML Neural Visualizer & Weight Matrix
   // -------------------------------------------------------------
   const sliders = document.querySelectorAll(".weight-slider");
   const predResult = document.getElementById("ai-prediction-text");
@@ -779,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateAIPrediction();
 
   // -------------------------------------------------------------
-  // 16. Chat Modal ('T' hotkey)
+  // 14. Chat Modal ('T' hotkey)
   // -------------------------------------------------------------
   const chatModal = document.getElementById("chat-modal");
   const chatInput = document.getElementById("chat-text-input");
@@ -829,26 +605,27 @@ document.addEventListener("DOMContentLoaded", () => {
         addChatMessage("Server", "Commands: /teleport [overworld|nether|end], /stats, /contact, /clear", true);
       } else if (cmd === "teleport" || cmd === "tp") {
         const dim = parts[1] || "nether";
-        if (dim === "nether") triggerNetherPortal("nether", "achievements");
-        else if (dim === "end") triggerEndPortal("hobbies");
-        else {
+        if (dim === "nether") {
+          setBiome("nether", true, true);
+          document.getElementById("achievements")?.scrollIntoView({ behavior: "smooth" });
+        } else if (dim === "end") {
+          setBiome("end", true, true);
+          document.getElementById("hobbies")?.scrollIntoView({ behavior: "smooth" });
+        } else {
           setBiome("overworld", true, true);
           document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
         }
       } else if (cmd === "stats") {
         addChatMessage("Kanav", "18 yrs old | Passion: AI/ML | TT State Rank | Counter-Strike Finalist | Robot Builder", true);
       } else if (cmd === "contact") {
-        const contactSection = document.getElementById("contact");
-        if (contactSection) {
-          throwEnderPearl(window.innerWidth / 2, window.innerHeight - 80, contactSection);
-        }
+        document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
       } else {
         addChatMessage("Server", `Unknown command '${cmd}'. Type /help for help.`, true);
       }
     } else {
       setTimeout(() => {
-        addChatMessage("Kanav", "Thanks for reaching out! Check the Ender Chest at the bottom to connect with me!");
-      }, 600);
+        addChatMessage("Kanav", "Thanks for checking out my portfolio! Feel free to connect via the Contact section below.");
+      }, 500);
     }
   }
 
