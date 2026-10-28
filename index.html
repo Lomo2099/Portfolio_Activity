@@ -20,12 +20,6 @@
   <!-- Subtle Screen Warp Flash -->
   <div id="teleport-flash"></div>
 
-  <!-- Sleek Dimension Pill Notification (Non-blocking) -->
-  <div id="dimension-pill-notice">
-    <span class="pill-icon" id="dimension-pill-icon">🌍</span>
-    <span class="pill-text" id="dimension-pill-text">Entered The Overworld</span>
-  </div>
-
   <!-- TOP HUD -->
   <header class="mc-hud">
     <div class="hud-left">
@@ -76,10 +70,13 @@
     </div>
 
     <div class="hud-right">
-      <div class="biome-indicator" title="Current Dimension">
-        <span class="biome-dot"></span>
-        <span id="current-biome-text">Overworld</span>
-      </div>
+      <a href="#lab" class="hud-btn" id="hud-lab-btn" title="Open Interactive Lab">
+        <span>🧪</span> <span>LAB</span>
+      </a>
+
+      <button class="hud-btn" id="edit-bio-btn" title="Quick edit your bio (Rubric 07)">
+        <span>✏️</span> <span>EDIT BIO</span>
+      </button>
 
       <button class="hud-btn" id="inv-toggle-btn" title="Press E for Inventory">
         <span>🎒</span> <span>INV [E]</span>
@@ -87,10 +84,6 @@
 
       <button class="hud-btn" id="sound-toggle-btn" title="Toggle 8-bit sound FX">
         <span>🔊</span> <span id="sound-status-text">SFX: ON</span>
-      </button>
-
-      <button class="hud-btn" id="chat-toggle-btn" title="Press T for Terminal Chat">
-        <span>💬</span> <span>CHAT [T]</span>
       </button>
     </div>
   </header>
@@ -100,7 +93,7 @@
 
     <!-- HERO SECTION -->
     <section id="hero" class="hero-card">
-      <img src="nether_lab_banner.png" alt="Nether Portal and AI Laboratory Banner" class="hero-banner-img" onerror="this.src='nether_lab_banner.jpg'">
+      <img src="nether_lab_banner.png" alt="AI Laboratory and Redstone Workspace Banner" class="hero-banner-img" onerror="this.src='nether_lab_banner.jpg'">
       
       <div class="hero-content">
         <!-- Splash Text -->
@@ -128,15 +121,23 @@
           </div>
         </div>
 
-        <!-- Fast Action Dimensional Warping -->
-        <div class="hero-teleport-box">
-          <div class="teleport-box-title">⚡ REALM NAVIGATION</div>
-          <button class="mc-btn nether-style" data-teleport-target="achievements" data-warp="portal">
-            <span>🔥</span> Warp to Nether
-          </button>
-          <button class="mc-btn pearl-style" data-teleport-target="experience" data-warp="pearl">
-            <span>🔮</span> Warp to Skills
-          </button>
+        <!-- Clean Navigation Actions -->
+        <div class="hero-action-box">
+          <div class="action-box-title">QUICK NAVIGATION</div>
+          <div class="hero-action-buttons">
+            <a href="#experience" class="mc-btn">
+              <span>⚡</span> Skills &amp; Systems
+            </a>
+            <a href="#achievements" class="mc-btn">
+              <span>🏆</span> Key Achievements
+            </a>
+            <a href="#lab" class="mc-btn lab-btn-highlight">
+              <span>🧪</span> Interactive Lab
+            </a>
+            <a href="#contact" class="mc-btn">
+              <span>✉️</span> Contact Kanav
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -146,16 +147,16 @@
       <div class="mc-window">
         <div class="mc-window-header">
           <div class="window-title">
-            <span>📜</span> OVERWORLD DOSSIER // ABOUT KANAV
+            <span>📜</span> PROFILE DOSSIER // ABOUT KANAV
           </div>
-          <span class="window-badge">BIOME: PLAINS</span>
+          <span class="window-badge">STATUS: ACTIVE</span>
         </div>
 
         <div class="mc-window-body">
           <div class="about-grid">
             <div class="about-dossier">
               <h3 class="dossier-heading">PLAYER IDENTIFICATION</h3>
-              <p class="dossier-text">
+              <p class="dossier-text" id="about-bio-text">
                 I am an 18-year-old student and technology enthusiast with a relentless curiosity for how computers think and operate from the bare metal up to intelligent neural networks.
               </p>
               <p class="dossier-text">
@@ -200,7 +201,7 @@
                 <li class="quest-step">
                   <span class="step-chk">[✓]</span>
                   <div>
-                    <strong>Generative AI &amp; Agents:</strong> Leveraging intelligent agents and diffusion models for next-gen workflows (including this portfolio's art assets!).
+                    <strong>Generative AI &amp; Agents:</strong> Leveraging intelligent agents and diffusion models for next-gen workflows.
                   </div>
                 </li>
                 <li class="quest-step">
@@ -216,103 +217,118 @@
       </div>
     </section>
 
-    <!-- SECTION 2: EXPERIENCE (REDSTONE WORKSHOP) -->
+    <!-- SECTION 2: EXPERIENCE (TECHNICAL SKILLS & SYSTEMS) -->
     <section id="experience" class="section-wrapper">
       <div class="mc-window">
         <div class="mc-window-header">
           <div class="window-title">
-            <span>⚙️</span> THE REDSTONE WORKSHOP // TECHNICAL EXPERIENCE
+            <span>⚡</span> TECHNICAL SKILLS &amp; SYSTEMS EXPERIENCE
           </div>
-          <span class="window-badge">REDSTONE TIER IV</span>
+          <span class="window-badge">CORE CAPABILITIES</span>
         </div>
 
         <div class="mc-window-body">
           <div class="experience-grid">
-            <!-- Experience 1: Git -->
+            <!-- Skill 1: Git Version Control -->
             <div class="exp-card">
               <div class="exp-card-header">
-                <div class="exp-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 16 16">
-                    <circle cx="8" cy="4" r="3" fill="#ff5555"/>
-                    <circle cx="4" cy="12" r="3" fill="#ff5555"/>
-                    <circle cx="12" cy="12" r="3" fill="#ff5555"/>
-                    <line x1="8" y1="4" x2="4" y2="12" stroke="#ffffff" stroke-width="2"/>
-                    <line x1="8" y1="4" x2="12" y2="12" stroke="#ffffff" stroke-width="2"/>
+                <div class="exp-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 16 16">
+                    <circle cx="4" cy="4" r="2.5" fill="#f05033"/>
+                    <circle cx="12" cy="8" r="2.5" fill="#f05033"/>
+                    <circle cx="4" cy="12" r="2.5" fill="#f05033"/>
+                    <line x1="4" y1="4" x2="4" y2="12" stroke="#f05033" stroke-width="1.5"/>
+                    <path d="M4 12 Q8 10 12 8" stroke="#f05033" stroke-width="1.5" fill="none"/>
                   </svg>
                 </div>
-                <h4 class="exp-card-title">Git &amp; Version Control</h4>
+                <div>
+                  <h4 class="exp-title">Git &amp; Version Control</h4>
+                  <span class="exp-tier">BRANCHING &amp; CI/CD</span>
+                </div>
               </div>
-              <p class="exp-card-desc">
-                Disciplined branch management, pull requests, resolving merge conflicts, staging hygiene, semantic commit histories, and distributed code collaboration on GitHub.
+              <p class="exp-desc">
+                Proficient in atomic commits, branch workflows (GitFlow, trunk-based), rebase operations, interactive staging, resolving complex merge conflicts, and automated GitHub Actions.
               </p>
               <div class="exp-tags">
                 <span class="exp-tag">Git CLI</span>
                 <span class="exp-tag">GitHub</span>
-                <span class="exp-tag">Rebase</span>
-                <span class="exp-tag">CI/CD</span>
+                <span class="exp-tag">Branching</span>
+                <span class="exp-tag">Merge Conflicts</span>
               </div>
             </div>
 
-            <!-- Experience 2: CLI Commands -->
+            <!-- Skill 2: CLI Commands & Shell Scripting -->
             <div class="exp-card">
               <div class="exp-card-header">
-                <div class="exp-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 16 16">
-                    <rect width="16" height="16" fill="#000"/>
-                    <path d="M3 4 L7 8 L3 12" stroke="#55ff55" stroke-width="2" fill="none"/>
-                    <line x1="8" y1="12" x2="13" y2="12" stroke="#55ff55" stroke-width="2"/>
+                <div class="exp-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 16 16">
+                    <rect x="1" y="2" width="14" height="12" fill="#1e1e1e" stroke="#55ff55" stroke-width="1"/>
+                    <path d="M4 6 L7 8 L4 10" stroke="#55ff55" stroke-width="1.5" fill="none"/>
+                    <line x1="9" y1="10" x2="12" y2="10" stroke="#55ff55" stroke-width="1.5"/>
                   </svg>
                 </div>
-                <h4 class="exp-card-title">CLI &amp; Shell Scripting</h4>
+                <div>
+                  <h4 class="exp-title">CLI &amp; Shell Scripting</h4>
+                  <span class="exp-tier">BASH &amp; ZSH AUTOMATION</span>
+                </div>
               </div>
-              <p class="exp-card-desc">
-                Deep fluency in Unix/macOS terminal environments: Bash/Zsh workflows, process management, pipe pipelines, file permission security, SSH remote tunnels, and automation scripts.
+              <p class="exp-desc">
+                Command-line native: piping, text manipulation with grep/awk/sed, process inspection (top, htop, ps), cron job scheduling, remote SSH operations, and bash automation scripts.
               </p>
               <div class="exp-tags">
                 <span class="exp-tag">Zsh / Bash</span>
-                <span class="exp-tag">SSH</span>
-                <span class="exp-tag">Systemd</span>
-                <span class="exp-tag">Automation</span>
+                <span class="exp-tag">SSH Keys</span>
+                <span class="exp-tag">Pipes &amp; Regex</span>
+                <span class="exp-tag">Process Mgmt</span>
               </div>
             </div>
 
-            <!-- Experience 3: Computer Hardware Systems -->
+            <!-- Skill 3: Computer Hardware Systems -->
             <div class="exp-card">
               <div class="exp-card-header">
-                <div class="exp-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 16 16">
-                    <rect x="2" y="2" width="12" height="12" fill="#2d6840"/>
-                    <rect x="5" y="5" width="6" height="6" fill="#88ff88"/>
-                    <circle cx="8" cy="8" r="1.5" fill="#000"/>
+                <div class="exp-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 16 16">
+                    <rect x="2" y="2" width="12" height="12" fill="#2d3748" stroke="#63b3ed" stroke-width="1"/>
+                    <rect x="5" y="5" width="6" height="6" fill="#3182ce"/>
+                    <line x1="4" y1="1" x2="4" y2="2" stroke="#cbd5e0" stroke-width="1"/>
+                    <line x1="8" y1="1" x2="8" y2="2" stroke="#cbd5e0" stroke-width="1"/>
+                    <line x1="12" y1="1" x2="12" y2="2" stroke="#cbd5e0" stroke-width="1"/>
                   </svg>
                 </div>
-                <h4 class="exp-card-title">Computer Hardware Systems</h4>
+                <div>
+                  <h4 class="exp-title">Computer Hardware Systems</h4>
+                  <span class="exp-tier">ARCHITECTURE &amp; ASSEMBLY</span>
+                </div>
               </div>
-              <p class="exp-card-desc">
-                Hands-on component architecture knowledge: custom PC building, CPU/GPU socket architectures, RAM timings, thermals, BIOS flashing, PSU load calculations, and hardware troubleshooting.
+              <p class="exp-desc">
+                Deep understanding of PC component compatibility, custom rig building, BIOS/UEFI configuration, PCIe lane allocation, memory timings, thermals, and hardware diagnostic troubleshooting.
               </p>
               <div class="exp-tags">
-                <span class="exp-tag">Custom Rigs</span>
-                <span class="exp-tag">Thermals</span>
-                <span class="exp-tag">BIOS</span>
-                <span class="exp-tag">Troubleshooting</span>
+                <span class="exp-tag">PC Assembly</span>
+                <span class="exp-tag">Thermals &amp; OC</span>
+                <span class="exp-tag">BIOS / UEFI</span>
+                <span class="exp-tag">Diagnostics</span>
               </div>
             </div>
 
-            <!-- Experience 4: Minecraft Server Development -->
+            <!-- Skill 4: Game Server Development -->
             <div class="exp-card">
               <div class="exp-card-header">
-                <div class="exp-item-icon">
-                  <svg width="20" height="20" viewBox="0 0 16 16">
-                    <rect width="16" height="16" fill="#2c5a2c"/>
-                    <rect x="3" y="3" width="10" height="10" fill="#4d8b4d"/>
-                    <rect x="5" y="5" width="6" height="6" fill="#aaff55"/>
+                <div class="exp-icon-box">
+                  <svg width="24" height="24" viewBox="0 0 16 16">
+                    <rect x="2" y="1" width="12" height="14" fill="#3b2b1a" stroke="#8b5a2b" stroke-width="1"/>
+                    <rect x="4" y="3" width="8" height="4" fill="#55ff55"/>
+                    <circle cx="6" cy="11" r="1" fill="#ffaa00"/>
+                    <circle cx="10" cy="11" r="1" fill="#55ffff"/>
                   </svg>
                 </div>
-                <h4 class="exp-card-title">Minecraft Server Development</h4>
+                <div>
+                  <h4 class="exp-title">Game Server Development</h4>
+                  <span class="exp-tier">MINECRAFT &amp; JVM PERFORMANCE</span>
+                </div>
               </div>
-              <p class="exp-card-desc">
-                Architecting and administering high-performance Paper/Spigot and Fabric multiplayer servers: JVM garbage collection flags (Aikar's flags), plugin configuration, world optimization, anti-cheat, and custom server events.
+              <p class="exp-desc">
+                Architected and administered production Minecraft servers on Spigot and Paper: configured YAML plugin pipelines, tuned Aikar JVM garbage collection flags, and maintained strict 20.0 TPS under load.
               </p>
               <div class="exp-tags">
                 <span class="exp-tag">Paper / Spigot</span>
@@ -322,79 +338,25 @@
               </div>
             </div>
           </div>
-
-          <!-- Interactive Minecraft Server CLI Terminal -->
-          <div class="server-console-box">
-            <div class="console-topbar">
-              <div class="console-dots">
-                <span class="console-dot" style="background:#ff5f56"></span>
-                <span class="console-dot" style="background:#ffbd2e"></span>
-                <span class="console-dot" style="background:#27c93f"></span>
-              </div>
-              <span class="console-title">kanav@server-core: ~ (Minecraft Live Console Simulator)</span>
-              <span style="font-size: 9px; color:#55ff55;">● ONLINE</span>
-            </div>
-
-            <div class="console-terminal" id="server-console-output">
-              <div class="console-line info">[10:12:00 INFO]: Preparing start region for dimension minecraft:overworld</div>
-              <div class="console-line success">[10:12:01 INFO]: Loaded 20.0 TPS. Memory free: 4892MB / 8192MB</div>
-              <div class="console-line">[10:12:02 INFO]: Kanav joined the server. (Rank: Lead Admin &amp; ML Engineer)</div>
-              <div class="console-line info">&gt; Welcome to Kanav's CLI environment. Type <b>help</b> or click the quick command chips below.</div>
-            </div>
-
-            <div class="console-quick-cmds">
-              <span style="font-size: 9px; color: #888; align-self: center;">Quick Exec:</span>
-              <button class="cmd-chip" data-cmd="skills">skills</button>
-              <button class="cmd-chip" data-cmd="status">status</button>
-              <button class="cmd-chip" data-cmd="tps">tps</button>
-              <button class="cmd-chip" data-cmd="git">git</button>
-              <button class="cmd-chip" data-cmd="warp nether">warp nether</button>
-              <button class="cmd-chip" data-cmd="clear">clear</button>
-            </div>
-
-            <div class="console-input-row">
-              <span class="console-prompt-sym">&gt;</span>
-              <input type="text" id="console-user-input" class="console-input" placeholder="Type a command (e.g., 'help', 'status', 'tps')..." autocomplete="off">
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- IN-FLOW DIMENSION TRANSITION: NETHER REALM -->
-    <div class="dimension-transition-divider">
-      <div class="divider-left">
-        <div class="divider-badge-icon">🔥</div>
-        <div class="divider-text">
-          <h3>REALM SHIFT: THE NETHER // ACHIEVEMENTS ARENA</h3>
-          <p>Advancing into competitive milestones: Delhi State Table Tennis ranking, CS Championship, and Robotics builds.</p>
-        </div>
-      </div>
-      <div>
-        <button class="mc-btn nether-style" data-teleport-target="achievements" data-warp="portal">
-          <span>🔥</span> Jump to Achievements
-        </button>
-      </div>
-    </div>
-
-    <!-- SECTION 3: ACHIEVEMENTS (NETHER FORTRESS) -->
+    <!-- SECTION 3: KEY ACHIEVEMENTS & COMPETITIONS -->
     <section id="achievements" class="section-wrapper">
-      <div class="mc-window nether-window">
+      <div class="mc-window">
         <div class="mc-window-header">
           <div class="window-title">
-            <span>🏆</span> THE NETHER FORTRESS // MAJOR ACHIEVEMENTS
+            <span>🏆</span> KEY ACHIEVEMENTS &amp; COMPETITIONS
           </div>
-          <span class="window-badge" style="color:#ff5555; border-color:#882222;">DIMENSION: THE NETHER</span>
+          <span class="window-badge">VERIFIED RECORD</span>
         </div>
 
         <div class="mc-window-body">
-          <div class="nether-banner-box">
-            <span class="nether-banner-text">
-              🔥 <strong>HIGH LEVEL LOOT UNLOCKED:</strong> Elite athletic ranking, tournament hosting leadership, and engineering competition builds.
+          <div class="achievement-banner-box">
+            <span>
+              ⚡ <strong>RECOGNIZED EXCELLENCE:</strong> Elite athletic state ranking, competitive esports tournament leadership, and engineering competition builds.
             </span>
-            <button class="mc-btn pearl-style" data-teleport-target="hobbies" data-warp="pearl">
-              <span>🔮</span> Warp to End Realm
-            </button>
           </div>
 
           <div class="achievements-grid">
@@ -516,74 +478,60 @@
       </div>
     </section>
 
-    <!-- IN-FLOW DIMENSION TRANSITION: THE END -->
-    <div class="dimension-transition-divider">
-      <div class="divider-left">
-        <div class="divider-badge-icon">🌌</div>
-        <div class="divider-text">
-          <h3>REALM SHIFT: THE END // FUTURE &amp; HOBBIES</h3>
-          <p>Exploring high-speed reflexes, computer system hardware, and interactive machine learning neural models.</p>
-        </div>
-      </div>
-      <div>
-        <button class="mc-btn pearl-style" data-teleport-target="hobbies" data-warp="pearl">
-          <span>🔮</span> Jump to Hobbies &amp; AI
-        </button>
-      </div>
-    </div>
-
-    <!-- SECTION 4: HOBBIES & INTERACTIVE AI MATRIX (THE END) -->
-    <section id="hobbies" class="section-wrapper">
-      <div class="mc-window end-window">
+    <!-- SECTION 4: THE INTERACTIVE LAB (DEDICATED SEPARATE TAB) -->
+    <section id="lab" class="section-wrapper">
+      <div class="mc-window">
         <div class="mc-window-header">
           <div class="window-title">
-            <span>🌌</span> THE END REALM // HOBBIES &amp; AI PLAYGROUND
+            <span>🧪</span> THE INTERACTIVE LAB // SANDBOX &amp; TOYS
           </div>
-          <span class="window-badge" style="color:#dcb3ff; border-color:#6c4b92;">DIMENSION: THE END</span>
+          <span class="window-badge" style="color:#38bdf8; border-color:#0284c7;">INTERACTIVE PLAYGROUND</span>
         </div>
 
         <div class="mc-window-body">
-          <div class="end-layout">
-            <!-- Hobbies List -->
-            <div class="hobbies-list">
-              <h3 style="font-size: 13px; color: var(--dim-title-color); margin-bottom: 12px;">PLAYER INTERESTS &amp; PURSUITS</h3>
-              
-              <!-- Hobby 1 -->
-              <div class="hobby-card">
-                <div class="hobby-icon-wrap">🏓</div>
-                <div class="hobby-info">
-                  <h4>Sports &amp; Table Tennis</h4>
-                  <p>Competitive table tennis, intense rallies, fitness, and training physical reaction times to sub-second precision.</p>
+          <p class="lab-intro-text">
+            A dedicated sandbox showcasing Kanav's interactive systems: an in-browser 2x2 Crafting Table with custom recipes, an interactive Minecraft server CLI terminal simulator, and an AI/ML neural classification matrix.
+          </p>
+
+          <div class="lab-grid-container">
+            <!-- 1. Interactive 2x2 Crafting Workbench -->
+            <div class="workbench-card">
+              <div class="workbench-top">
+                <span class="workbench-icon">🔨</span>
+                <h4>2x2 CRAFTING WORKBENCH</h4>
+              </div>
+              <p class="workbench-sub">Choose a recipe preset or click ingredients to craft custom creations:</p>
+
+              <div class="workbench-grid-row">
+                <div class="craft-2x2-box">
+                  <div class="craft-slot" id="craft-slot-1" title="Crafting Slot 1">🧠</div>
+                  <div class="craft-slot" id="craft-slot-2" title="Crafting Slot 2">⚡</div>
+                  <div class="craft-slot" id="craft-slot-3" title="Crafting Slot 3">🖥️</div>
+                  <div class="craft-slot" id="craft-slot-4" title="Crafting Slot 4">🏓</div>
+                </div>
+                <div class="craft-arrow-sym">➔</div>
+                <div class="craft-result-box">
+                  <div class="craft-slot craft-output-slot" id="craft-output" title="Click to inspect crafted item!">🤖</div>
+                  <span class="craft-output-label" id="craft-output-name">Crafted: Autonomous AI Agent</span>
                 </div>
               </div>
 
-              <!-- Hobby 2 -->
-              <div class="hobby-card">
-                <div class="hobby-icon-wrap">🎮</div>
-                <div class="hobby-info">
-                  <h4>Tactical &amp; Sandbox Gaming</h4>
-                  <p>Counter-Strike tactical strategies, Minecraft sandbox engineering, automation, and team communication in high-stakes matches.</p>
-                </div>
-              </div>
-
-              <!-- Hobby 3 -->
-              <div class="hobby-card">
-                <div class="hobby-icon-wrap">💻</div>
-                <div class="hobby-info">
-                  <h4>All Things Computer Systems</h4>
-                  <p>Exploring operating systems, benchmarking memory buses, disassembling peripherals, reading architecture whitepapers, and building custom rigs.</p>
-                </div>
+              <div class="recipe-presets">
+                <span class="preset-label">Recipes:</span>
+                <button class="recipe-btn" data-recipe="ai">🤖 AI Agent</button>
+                <button class="recipe-btn" data-recipe="server">🚀 20.0 TPS Server</button>
+                <button class="recipe-btn" data-recipe="athlete">🏆 TT Trophy</button>
               </div>
             </div>
 
-            <!-- Interactive AI / ML Neural Visualizer -->
+            <!-- 2. AI / ML Neural Weights Matrix -->
             <div class="ai-interactive-chamber">
               <div class="chamber-heading">
                 <span>🧠</span>
-                <span>INTERACTIVE AI / ML ARCHETYPE MATRIX</span>
+                <span>AI / ML NEURAL WEIGHTS MATRIX</span>
               </div>
               <p style="font-family: var(--font-silk); font-size: 11px; color: #aaa;">
-                Adjust Kanav's skill inputs below to calculate the real-time neural activation and predict the optimal engineering domain:
+                Adjust inputs to calculate real-time neural activation and predict the optimal domain match:
               </p>
 
               <div class="ai-weights-controls">
@@ -610,7 +558,7 @@
               </div>
 
               <div class="ai-prediction-screen">
-                <div class="pred-title">NEURAL NETWORK CLASSIFICATION OUTPUT:</div>
+                <div class="pred-title">NEURAL CLASSIFICATION OUTPUT:</div>
                 <div class="pred-result" id="ai-prediction-text">Autonomous AI Agent Architect (91% Match)</div>
                 <div class="pred-bar">
                   <div class="pred-bar-fill" id="ai-pred-bar"></div>
@@ -618,11 +566,89 @@
               </div>
             </div>
           </div>
+
+          <!-- 3. Interactive Minecraft Server CLI Terminal -->
+          <div class="server-console-box">
+            <div class="console-topbar">
+              <div class="console-dots">
+                <span class="console-dot" style="background:#ff5f56"></span>
+                <span class="console-dot" style="background:#ffbd2e"></span>
+                <span class="console-dot" style="background:#27c93f"></span>
+              </div>
+              <span class="console-title">kanav@server-core: ~ (Minecraft Live Console Simulator)</span>
+              <span style="font-size: 9px; color:#55ff55;">● ONLINE</span>
+            </div>
+
+            <div class="console-terminal" id="server-console-output">
+              <div class="console-line info">[10:12:00 INFO]: Preparing start region for sandbox simulator</div>
+              <div class="console-line success">[10:12:01 INFO]: Loaded 20.0 TPS. Memory free: 4892MB / 8192MB</div>
+              <div class="console-line">[10:12:02 INFO]: Kanav joined the server. (Rank: Lead Admin &amp; ML Engineer)</div>
+              <div class="console-line info">&gt; Welcome to Kanav's CLI environment. Type <b>help</b> or click the quick command chips below.</div>
+            </div>
+
+            <div class="console-quick-cmds">
+              <span style="font-size: 9px; color: #888; align-self: center;">Quick Exec:</span>
+              <button class="cmd-chip" data-cmd="skills">skills</button>
+              <button class="cmd-chip" data-cmd="status">status</button>
+              <button class="cmd-chip" data-cmd="tps">tps</button>
+              <button class="cmd-chip" data-cmd="git">git</button>
+              <button class="cmd-chip" data-cmd="clear">clear</button>
+            </div>
+
+            <div class="console-input-row">
+              <span class="console-prompt-sym">&gt;</span>
+              <input type="text" id="console-user-input" class="console-input" placeholder="Type a command (e.g., 'help', 'status', 'tps')..." autocomplete="off">
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
 
-    <!-- SECTION 5: CONTACT (ENDER CHEST) -->
+    <!-- SECTION 5: HOBBIES & PURSUITS -->
+    <section id="hobbies" class="section-wrapper">
+      <div class="mc-window">
+        <div class="mc-window-header">
+          <div class="window-title">
+            <span>🏓</span> INTERESTS, ATHLETICS &amp; PURSUITS
+          </div>
+          <span class="window-badge">OFF-DUTY PURSUITS</span>
+        </div>
+
+        <div class="mc-window-body">
+          <div class="hobbies-grid-full">
+            <!-- Hobby 1 -->
+            <div class="hobby-card">
+              <div class="hobby-icon-wrap">🏓</div>
+              <div class="hobby-info">
+                <h4>Sports &amp; Table Tennis</h4>
+                <p>Competitive table tennis, intense rallies, fitness, and training physical reaction times to sub-second precision.</p>
+              </div>
+            </div>
+
+            <!-- Hobby 2 -->
+            <div class="hobby-card">
+              <div class="hobby-icon-wrap">🎮</div>
+              <div class="hobby-info">
+                <h4>Tactical &amp; Sandbox Gaming</h4>
+                <p>Counter-Strike tactical strategies, Minecraft sandbox engineering, automation, and team communication in high-stakes matches.</p>
+              </div>
+            </div>
+
+            <!-- Hobby 3 -->
+            <div class="hobby-card">
+              <div class="hobby-icon-wrap">💻</div>
+              <div class="hobby-info">
+                <h4>All Things Computer Systems</h4>
+                <p>Exploring operating systems, benchmarking memory buses, disassembling peripherals, reading architecture whitepapers, and building custom rigs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: CONTACT (ENDER CHEST) -->
     <section id="contact" class="section-wrapper">
       <div class="mc-window">
         <div class="mc-window-header">
@@ -674,7 +700,7 @@
               </a>
 
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="contact-card" title="LinkedIn">
-                <div class="contact-card-icon">💼</div>
+                <div class="contact-card-info">💼</div>
                 <div class="contact-card-info">
                   <h5>Professional Network</h5>
                   <p>Connect on LinkedIn</p>
@@ -713,12 +739,12 @@
         <span class="slot-count">1</span>
         <div class="slot-tooltip">
           <span class="tooltip-title">Compass of Identity</span>
-          <span class="tooltip-lore">Points toward Kanav (Overworld)</span>
+          <span class="tooltip-lore">About Kanav (18yo AI/ML Explorer)</span>
         </div>
       </div>
 
       <!-- Slot 2: Experience (Redstone Torch) -->
-      <div class="hotbar-slot" data-target="experience" data-warp="pearl" title="Slot 2: Technical Skills">
+      <div class="hotbar-slot" data-target="experience" data-warp="pearl" title="Slot 2: Skills & Tech">
         <span class="slot-key">2</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <rect x="7" y="7" width="2" height="7" fill="#8b5a2b"/>
@@ -727,13 +753,13 @@
         </svg>
         <span class="slot-count">4</span>
         <div class="slot-tooltip">
-          <span class="tooltip-title">Redstone Torch of Tech</span>
-          <span class="tooltip-lore">Powers Git, CLI, Hardware, Server</span>
+          <span class="tooltip-title">Redstone Torch</span>
+          <span class="tooltip-lore">Skills: Git, CLI, Hardware, Server</span>
         </div>
       </div>
 
-      <!-- Slot 3: Achievements (Golden Apple / Nether) -->
-      <div class="hotbar-slot" data-target="achievements" data-warp="portal" title="Slot 3: Nether Achievements">
+      <!-- Slot 3: Achievements (Golden Apple / Trophy) -->
+      <div class="hotbar-slot" data-target="achievements" data-warp="pearl" title="Slot 3: Key Achievements">
         <span class="slot-key">3</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <circle cx="8" cy="9" r="6" fill="#ffaa00"/>
@@ -744,13 +770,28 @@
         <span class="slot-count">3</span>
         <div class="slot-tooltip">
           <span class="tooltip-title">Enchanted Golden Apple</span>
-          <span class="tooltip-lore">TT State Rank &amp; CS Silver (Nether Warp)</span>
+          <span class="tooltip-lore">Achievements: TT State, CS 2nd, Robotics</span>
         </div>
       </div>
 
-      <!-- Slot 4: Hobbies & AI (Ender Pearl) -->
-      <div class="hotbar-slot" data-target="hobbies" data-warp="pearl" title="Slot 4: Hobbies & AI">
+      <!-- Slot 4: Interactive Lab (Crafting / Brewing) -->
+      <div class="hotbar-slot" data-target="lab" data-warp="pearl" title="Slot 4: Interactive Lab">
         <span class="slot-key">4</span>
+        <svg class="slot-item-icon" viewBox="0 0 16 16">
+          <rect x="2" y="2" width="12" height="12" fill="#1b1d36" stroke="#38bdf8" stroke-width="1"/>
+          <circle cx="8" cy="8" r="3" fill="#38bdf8"/>
+          <line x1="8" y1="2" x2="8" y2="14" stroke="#38bdf8" stroke-width="1"/>
+        </svg>
+        <span class="slot-count">1</span>
+        <div class="slot-tooltip">
+          <span class="tooltip-title">Interactive Lab</span>
+          <span class="tooltip-lore">Crafting Workbench, CLI &amp; AI Matrix</span>
+        </div>
+      </div>
+
+      <!-- Slot 5: Hobbies & Pursuits (Feather / Paddle) -->
+      <div class="hotbar-slot" data-target="hobbies" data-warp="pearl" title="Slot 5: Hobbies & Athletics">
+        <span class="slot-key">5</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <circle cx="8" cy="8" r="6" fill="#0d5c63" stroke="#000" stroke-width="1"/>
           <circle cx="8" cy="8" r="4" fill="#2fe3ea"/>
@@ -758,58 +799,14 @@
         </svg>
         <span class="slot-count">16</span>
         <div class="slot-tooltip">
-          <span class="tooltip-title">Ender Pearl</span>
-          <span class="tooltip-lore">Instant Warp to The End Realm</span>
+          <span class="tooltip-title">Interests &amp; Athletics</span>
+          <span class="tooltip-lore">Table Tennis, Gaming, Systems</span>
         </div>
       </div>
 
-      <!-- Slot 5: Server Terminal Console -->
-      <div class="hotbar-slot" data-target="experience" data-warp="pearl" title="Slot 5: Server Terminal">
-        <span class="slot-key">5</span>
-        <svg class="slot-item-icon" viewBox="0 0 16 16">
-          <rect x="2" y="2" width="12" height="12" fill="#c68642" stroke="#000" stroke-width="1"/>
-          <circle cx="8" cy="8" r="3" fill="#55ff55"/>
-        </svg>
-        <span class="slot-count">20</span>
-        <div class="slot-tooltip">
-          <span class="tooltip-title">Command Block</span>
-          <span class="tooltip-lore">20 TPS Server Simulator</span>
-        </div>
-      </div>
-
-      <!-- Slot 6: Nether Portal Frame -->
-      <div class="hotbar-slot" data-target="achievements" data-warp="portal" title="Slot 6: Nether Portal">
+      <!-- Slot 6: Contact Ender Chest -->
+      <div class="hotbar-slot" data-target="contact" data-warp="pearl" title="Slot 6: Contact Kanav">
         <span class="slot-key">6</span>
-        <svg class="slot-item-icon" viewBox="0 0 16 16">
-          <rect x="2" y="1" width="12" height="14" fill="#1b1226"/>
-          <rect x="4" y="3" width="8" height="10" fill="#a020f0"/>
-          <rect x="5" y="4" width="6" height="8" fill="#d975ff"/>
-        </svg>
-        <span class="slot-count">14</span>
-        <div class="slot-tooltip">
-          <span class="tooltip-title">Nether Portal</span>
-          <span class="tooltip-lore">Warp to Achievements</span>
-        </div>
-      </div>
-
-      <!-- Slot 7: AI Matrix Core -->
-      <div class="hotbar-slot" data-target="hobbies" data-warp="pearl" title="Slot 7: AI/ML Matrix">
-        <span class="slot-key">7</span>
-        <svg class="slot-item-icon" viewBox="0 0 16 16">
-          <polygon points="8,1 15,8 8,15 1,8" fill="#aa00aa"/>
-          <polygon points="8,3 13,8 8,13 3,8" fill="#ff55ff"/>
-          <rect x="7" y="7" width="2" height="2" fill="#ffffff"/>
-        </svg>
-        <span class="slot-count">64</span>
-        <div class="slot-tooltip">
-          <span class="tooltip-title">Neural Matrix Core</span>
-          <span class="tooltip-lore">Machine Learning &amp; Robotics Power</span>
-        </div>
-      </div>
-
-      <!-- Slot 8: Contact Ender Chest -->
-      <div class="hotbar-slot" data-target="contact" data-warp="pearl" title="Slot 8: Contact">
-        <span class="slot-key">8</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <rect x="2" y="3" width="12" height="10" fill="#0b585c"/>
           <rect x="7" y="6" width="2" height="3" fill="#ffffff"/>
@@ -817,22 +814,51 @@
         <span class="slot-count">1</span>
         <div class="slot-tooltip">
           <span class="tooltip-title">Ender Chest</span>
-          <span class="tooltip-lore">Send Messages to Kanav</span>
+          <span class="tooltip-lore">Connect &amp; Message Kanav</span>
         </div>
       </div>
 
-      <!-- Slot 9: Biome Warp Overworld -->
-      <div class="hotbar-slot" data-target="about" data-warp="pearl" title="Slot 9: Return to Overworld">
+      <!-- Slot 7: Inventory GUI Modal -->
+      <div class="hotbar-slot" id="slot-inv-btn" title="Slot 7: Open Inventory [E]">
+        <span class="slot-key">7</span>
+        <svg class="slot-item-icon" viewBox="0 0 16 16">
+          <rect x="2" y="2" width="12" height="12" fill="#c68642" stroke="#000" stroke-width="1"/>
+          <rect x="6" y="5" width="4" height="6" fill="#8b5a2b"/>
+          <circle cx="8" cy="7" r="1" fill="#ffaa00"/>
+        </svg>
+        <span class="slot-count">INV</span>
+        <div class="slot-tooltip">
+          <span class="tooltip-title">Player Backpack [E]</span>
+          <span class="tooltip-lore">View Armor, Stats &amp; Storage</span>
+        </div>
+      </div>
+
+      <!-- Slot 8: Audio SFX Toggle -->
+      <div class="hotbar-slot" id="slot-sfx-btn" title="Slot 8: Sound Effects">
+        <span class="slot-key">8</span>
+        <svg class="slot-item-icon" viewBox="0 0 16 16">
+          <rect x="3" y="4" width="4" height="8" fill="#aa00aa"/>
+          <polygon points="7,4 12,1 12,15 7,12" fill="#ff55ff"/>
+        </svg>
+        <span class="slot-count">SFX</span>
+        <div class="slot-tooltip">
+          <span class="tooltip-title">Note Block (Audio)</span>
+          <span class="tooltip-lore">Toggle 8-bit Sound FX</span>
+        </div>
+      </div>
+
+      <!-- Slot 9: Jump to Top -->
+      <div class="hotbar-slot" data-target="hero" data-warp="pearl" title="Slot 9: Jump to Top">
         <span class="slot-key">9</span>
         <svg class="slot-item-icon" viewBox="0 0 16 16">
           <rect width="16" height="16" fill="#4d8b4d"/>
           <rect x="2" y="2" width="12" height="12" fill="#87ceeb"/>
-          <circle cx="11" cy="5" r="2.5" fill="#ffff55"/>
+          <polygon points="8,4 12,10 4,10" fill="#ffff55"/>
         </svg>
-        <span class="slot-count">1</span>
+        <span class="slot-count">TOP</span>
         <div class="slot-tooltip">
-          <span class="tooltip-title">Overworld Base</span>
-          <span class="tooltip-lore">Warp back to Main Profile</span>
+          <span class="tooltip-title">Overview Beacon</span>
+          <span class="tooltip-lore">Jump back to page header</span>
         </div>
       </div>
     </div>
@@ -855,77 +881,62 @@
           <div class="inv-slot-box" title="Diamond Boots (Feather Falling IV)">👢</div>
         </div>
 
-        <!-- 3D Player Stage -->
-        <div class="inv-player-stage">
-          <img src="avatar.png" alt="Kanav Paperdoll" class="inv-player-avatar" onerror="this.src='avatar.jpg'">
+        <!-- Player Visual Preview Frame -->
+        <div class="inv-player-box">
+          <img src="avatar.png" alt="Player Model" class="inv-player-avatar" onerror="this.src='avatar.jpg'">
         </div>
 
-        <!-- 2x2 Crafting Grid -->
+        <!-- 2x2 Crafting In Inventory -->
         <div class="inv-crafting-box">
-          <span style="font-size: 9px; color: #373737;">Crafting (2x2)</span>
+          <span style="font-size: 8px; color: #555; margin-bottom: 2px;">CRAFTING</span>
           <div class="crafting-grid-2x2">
-            <div class="inv-slot-box" title="Ingredient 1: Python/Math">🧠</div>
-            <div class="inv-slot-box" title="Ingredient 2: Redstone/Logic">⚡</div>
-            <div class="inv-slot-box" title="Ingredient 3: Hardware Rig">🖥️</div>
-            <div class="inv-slot-box" title="Ingredient 4: Reflexes">🏓</div>
+            <div class="inv-slot-box">🧠</div>
+            <div class="inv-slot-box">⚡</div>
+            <div class="inv-slot-box">🖥️</div>
+            <div class="inv-slot-box">🏓</div>
           </div>
           <div class="inv-craft-output">
-            <span style="font-size: 14px;">➔</span>
-            <div class="inv-slot-box" style="box-shadow: 0 0 10px #55ff55;" title="Output: Autonomous AI/ML Architect">🤖</div>
+            <span style="font-size: 10px; color: #555;">➜</span>
+            <div class="inv-slot-box" style="border-color: #55ff55;" title="Crafted: Autonomous AI Model">🤖</div>
           </div>
         </div>
       </div>
 
-      <!-- 27 Main Inventory Slots -->
-      <span style="font-size: 9px; color: #373737; margin-bottom: 4px; display: block;">Inventory</span>
+      <!-- 27 Storage Slots -->
       <div class="inv-storage-grid">
-        <div class="inv-slot-box" title="Diamond Table Tennis Paddle (State Rank)">🏓</div>
-        <div class="inv-slot-box" title="Counter-Strike Defuse Kit">💣</div>
+        <div class="inv-slot-box" title="Git Repo">🐙</div>
+        <div class="inv-slot-box" title="Terminal Prompt">&gt;_</div>
+        <div class="inv-slot-box" title="Custom PC Motherboard">🖲️</div>
+        <div class="inv-slot-box" title="20.0 TPS Server Engine">⚙️</div>
         <div class="inv-slot-box" title="Robotics Microcontroller">🤖</div>
-        <div class="inv-slot-box" title="Git Branch Matrix">🌿</div>
-        <div class="inv-slot-box" title="Bash Terminal Kernel">💻</div>
-        <div class="inv-slot-box" title="Paper Minecraft Server Jar (20 TPS)">📜</div>
-        <div class="inv-slot-box" title="Custom BIOS &amp; RAM Tuning">⚙️</div>
-        <div class="inv-slot-box" title="Enchanted Golden Apple">🍏</div>
-        <div class="inv-slot-box" title="Neural Weights Tensor">🔮</div>
+        <div class="inv-slot-box" title="Table Tennis Trophy">🏓</div>
+        <div class="inv-slot-box" title="Counter Strike Silver Medal">🥈</div>
+        <div class="inv-slot-box" title="Neural Weights Tensor">🧠</div>
+        <div class="inv-slot-box" title="Spigot / Paper JVM">☕</div>
 
-        <div class="inv-slot-box" title="16x Ender Pearls">🔮</div>
-        <div class="inv-slot-box" title="Flint &amp; Steel">🔥</div>
-        <div class="inv-slot-box" title="64x Redstone Dust">🔴</div>
-        <div class="inv-slot-box" title="Eye of Ender">👁️</div>
-        <div class="inv-slot-box" title="Obsidian Block">⬛</div>
-        <div class="inv-slot-box" title="Book and Quill (Portfolio)">📖</div>
-        <div class="inv-slot-box" title="Diamond Pickaxe">⛏️</div>
-        <div class="inv-slot-box" title="Nether Star">⭐</div>
-        <div class="inv-slot-box" title="Ender Chest Key">🔑</div>
+        <div class="inv-slot-box" title="Bash Shell">🐚</div>
+        <div class="inv-slot-box" title="Ultrasonic Sensor">📡</div>
+        <div class="inv-slot-box" title="Infrared Module">🔦</div>
+        <div class="inv-slot-box" title="GPU CUDA Cores">⚡</div>
+        <div class="inv-slot-box" title="State Rank Certificate">📜</div>
+        <div class="inv-slot-box" title="Tournament Bracket">🏆</div>
+        <div class="inv-slot-box" title="Aikar GC Flags">🧹</div>
+        <div class="inv-slot-box" title="SSD NVMe Gen4">💾</div>
+        <div class="inv-slot-box" title="DDR5 High Speed RAM">🔋</div>
 
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box"></div>
-        <div class="inv-slot-box" title="Totem of Undying">🗿</div>
+        <div class="inv-slot-box" title="Python 3.12">🐍</div>
+        <div class="inv-slot-box" title="Linux Kernel">🐧</div>
+        <div class="inv-slot-box" title="Docker Container">🐳</div>
+        <div class="inv-slot-box" title="SSH Keypair">🔑</div>
+        <div class="inv-slot-box" title="Breadboard &amp; Jumpers">🔌</div>
+        <div class="inv-slot-box" title="Ender Chest Backup">📦</div>
+        <div class="inv-slot-box" title="Curiosity &amp; Drive">🌟</div>
+        <div class="inv-slot-box" title="Competitive Focus">🎯</div>
+        <div class="inv-slot-box" title="Enchanted Book (Mending)">📖</div>
       </div>
     </div>
   </div>
 
-  <!-- CHAT MODAL ('T' KEY OR CHAT BUTTON) -->
-  <div id="chat-modal">
-    <div class="chat-history" id="chat-history-content">
-      <div class="chat-msg system">[System] Connected to Kanav's Portfolio Server.</div>
-      <div class="chat-msg system">[System] Press E for Inventory, T for Chat, 1-9 for Hotbar.</div>
-      <div class="chat-msg"><span class="sender">&lt;Kanav&gt;</span> Welcome! Scroll naturally or click the hotbar to navigate between sections.</div>
-    </div>
-    <div class="chat-input-bar">
-      <span style="color:var(--mc-yellow);">&gt;</span>
-      <input type="text" id="chat-text-input" placeholder="Type chat message or /help, /teleport, /contact..." autocomplete="off">
-    </div>
-  </div>
-
-  <!-- Sound & Application Scripts -->
   <script src="sound.js"></script>
   <script src="app.js"></script>
 </body>
