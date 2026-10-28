@@ -256,6 +256,40 @@ class MinecraftSoundEngine {
       osc.stop(now + 0.12);
     } catch (e) {}
   }
+
+  // Advancement Unlocked Jingle (Iconic 3-note Minecraft Fanfare)
+  playAdvancement() {
+    if (!this.enabled) return;
+    this.resume();
+    try {
+      const now = this.ctx.currentTime;
+      // Notes: C5, E5, G5, C6 triumphant arpeggio
+      const notes = [
+        { f: 523.25, t: 0.00, d: 0.10 },
+        { f: 659.25, t: 0.10, d: 0.10 },
+        { f: 783.99, t: 0.20, d: 0.12 },
+        { f: 1046.50, t: 0.32, d: 0.40 }
+      ];
+
+      notes.forEach((note) => {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const start = now + note.t;
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(note.f, start);
+
+        gain.gain.setValueAtTime(0.25, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + note.d);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(start);
+        osc.stop(start + note.d);
+      });
+    } catch (e) {}
+  }
 }
 
 window.soundEngine = new MinecraftSoundEngine();

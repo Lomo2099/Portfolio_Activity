@@ -15,29 +15,43 @@
   --mc-button-bg: #8b8b8b;
   --mc-button-border-light: #ffffff;
   --mc-button-border-dark: #373737;
+  
   --mc-green: #55ff55;
   --mc-gold: #ffaa00;
   --mc-yellow: #ffff55;
   --mc-aqua: #55ffff;
   --mc-red: #ff5555;
-  --mc-purple: #aa00aa;
+  --mc-purple: #c55eff;
   --mc-dark-purple: #2c0b38;
-  --mc-nether-red: #581414;
+  --mc-nether-red: #881a24;
   --mc-nether-dark: #22080a;
   --mc-end-dark: #0f0a1c;
   --mc-end-stone: #e2e896;
+
+  /* Dynamic Dimension Accents (Syncs with Overworld, Nether, End) */
+  --dim-accent-primary: #55ff55;
+  --dim-accent-secondary: #55ffff;
+  --dim-title-color: #ffff55;
+  --dim-border-glow: rgba(85, 255, 85, 0.3);
+  --dim-banner-bg: rgba(20, 24, 34, 0.9);
   
   --font-pixel: 'Press Start 2P', monospace;
   --font-silk: 'Silkscreen', monospace;
   --font-term: 'VT323', monospace;
 }
 
+/* Authentic Minecraft Pixel Cursor */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   image-rendering: pixelated;
   -webkit-font-smoothing: none;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><polygon points='0,0 0,14 4,11 6,15 8,14 6,10 11,10' fill='%23ffffff' stroke='%23000000' stroke-width='1.2'/></svg>"), auto;
+}
+
+button, a, .hotbar-slot, .cmd-chip, input[type="range"] {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><polygon points='2,0 0,2 7,9 7,12 9,12 9,9 16,2 14,0 8,6' fill='%2355ffff' stroke='%23000000' stroke-width='1.2'/></svg>"), pointer !important;
 }
 
 html {
@@ -47,45 +61,110 @@ html {
   background-color: var(--mc-dark-bg);
 }
 
+/* Scroll Lock Class during Teleport Animations */
+html.mc-scroll-locked, body.mc-scroll-locked {
+  overflow: hidden !important;
+  height: 100vh !important;
+  touch-action: none !important;
+}
+
+/* ============================================================
+   MINECRAFT SEAMLESS TILE TEXTURES (DIRT, COBBLE, NETHERRACK, END STONE, OBSIDIAN)
+   ============================================================ */
+
+/* Seamless Minecraft Dirt Pattern */
+.mc-dirt-bg {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23866043'/><rect x='0' y='0' width='2' height='2' fill='%23745137'/><rect x='3' y='1' width='3' height='2' fill='%23583c27'/><rect x='8' y='0' width='2' height='3' fill='%239b7050'/><rect x='12' y='2' width='3' height='2' fill='%23745137'/><rect x='1' y='4' width='2' height='2' fill='%239b7050'/><rect x='6' y='5' width='4' height='2' fill='%23583c27'/><rect x='11' y='6' width='3' height='2' fill='%23745137'/><rect x='3' y='8' width='3' height='2' fill='%239b7050'/><rect x='8' y='9' width='3' height='3' fill='%23583c27'/><rect x='14' y='9' width='2' height='2' fill='%23745137'/><rect x='0' y='12' width='4' height='2' fill='%23583c27'/><rect x='5' y='13' width='3' height='2' fill='%239b7050'/><rect x='10' y='12' width='4' height='3' fill='%23745137'/><rect x='1' y='15' width='2' height='1' fill='%23745137'/></svg>");
+  background-size: 32px 32px;
+}
+
+/* Seamless Minecraft Cobblestone Pattern */
+.mc-cobble-bg {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23666666'/><rect x='0' y='0' width='8' height='1' fill='%23888888'/><rect x='0' y='1' width='1' height='6' fill='%23888888'/><rect x='0' y='7' width='8' height='1' fill='%23444444'/><rect x='7' y='1' width='1' height='6' fill='%23444444'/><rect x='8' y='4' width='8' height='1' fill='%23888888'/><rect x='8' y='5' width='1' height='6' fill='%23888888'/><rect x='8' y='11' width='8' height='1' fill='%23444444'/><rect x='15' y='5' width='1' height='6' fill='%23444444'/><rect x='1' y='1' width='6' height='6' fill='%23555555'/><rect x='9' y='5' width='6' height='6' fill='%23777777'/><rect x='2' y='3' width='2' height='2' fill='%233a3a3a'/><rect x='11' y='7' width='2' height='2' fill='%23999999'/></svg>");
+  background-size: 32px 32px;
+}
+
+/* Seamless Minecraft Netherrack Pattern */
+.mc-netherrack-bg {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23691f24'/><rect x='2' y='1' width='3' height='2' fill='%238a2e34'/><rect x='8' y='0' width='2' height='3' fill='%234a1418'/><rect x='12' y='2' width='3' height='2' fill='%2358161b'/><rect x='1' y='6' width='3' height='2' fill='%234a1418'/><rect x='6' y='5' width='4' height='3' fill='%238a2e34'/><rect x='11' y='7' width='3' height='2' fill='%23360c0f'/><rect x='3' y='10' width='4' height='2' fill='%238a2e34'/><rect x='9' y='9' width='3' height='3' fill='%234a1418'/><rect x='1' y='13' width='3' height='2' fill='%2358161b'/><rect x='7' y='13' width='4' height='2' fill='%238a2e34'/><rect x='13' y='12' width='2' height='3' fill='%23360c0f'/></svg>");
+  background-size: 32px 32px;
+}
+
+/* Seamless Minecraft End Stone Pattern */
+.mc-endstone-bg {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23d8d593'/><rect x='2' y='1' width='3' height='2' fill='%23eeebb4'/><rect x='8' y='2' width='2' height='2' fill='%23aba565'/><rect x='12' y='1' width='3' height='3' fill='%23eeebb4'/><rect x='1' y='6' width='4' height='2' fill='%23aba565'/><rect x='7' y='5' width='3' height='2' fill='%23eeebb4'/><rect x='11' y='6' width='3' height='2' fill='%238c854c'/><rect x='3' y='10' width='3' height='3' fill='%23eeebb4'/><rect x='8' y='9' width='4' height='2' fill='%23aba565'/><rect x='13' y='11' width='2' height='3' fill='%23eeebb4'/><rect x='1' y='13' width='3' height='2' fill='%238c854c'/><rect x='6' y='14' width='4' height='2' fill='%23eeebb4'/><rect x='11' y='13' width='3' height='2' fill='%23aba565'/></svg>");
+  background-size: 32px 32px;
+}
+
+/* Realistic Obsidian Block Texture */
+.mc-obsidian-block {
+  background-color: #120c1d;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23120c1d'/><rect x='1' y='2' width='3' height='2' fill='%232b1b3d'/><rect x='7' y='1' width='2' height='2' fill='%233e215e'/><rect x='12' y='3' width='3' height='2' fill='%232b1b3d'/><rect x='2' y='7' width='3' height='3' fill='%23481f6e'/><rect x='8' y='8' width='4' height='2' fill='%232b1b3d'/><rect x='1' y='12' width='2' height='2' fill='%232b1b3d'/><rect x='6' y='13' width='3' height='2' fill='%233e215e'/><rect x='12' y='11' width='3' height='3' fill='%2358248c'/><rect x='3' y='8' width='1' height='1' fill='%23773cb3'/></svg>");
+  background-size: 32px 32px;
+  border: 2px solid #000;
+  box-shadow: inset 2px 2px 0 #28173d, inset -2px -2px 0 #08040d;
+}
+
+/* Background Texture Layer behind the page */
+#mc-bg-texture-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.18;
+  transition: opacity 0.5s ease;
+}
+
 body {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
   background-color: #1a1a24;
-  background-image: 
-    radial-gradient(circle at 50% 30%, rgba(30, 40, 80, 0.4) 0%, transparent 70%),
-    linear-gradient(rgba(18, 18, 22, 0.94), rgba(18, 18, 22, 0.98)),
-    repeating-linear-gradient(0deg, #18181c 0px, #18181c 16px, #141418 16px, #141418 32px);
-  background-size: 100% 100%, 100% 100%, 32px 32px;
-  padding-bottom: 120px; /* Space for Hotbar */
-  transition: background 0.8s ease;
+  padding-bottom: 120px;
+  transition: background-color 0.8s ease, color 0.4s ease;
 }
 
 /* ============================================================
-   BIOME THEMES (OVERWORLD, NETHER, THE END)
+   DIMENSIONAL ATMOSPHERES (OVERWORLD, NETHER, THE END)
    ============================================================ */
+
+/* 1. OVERWORLD BIOME */
 body.biome-overworld {
-  background-color: #1a233a;
+  --dim-accent-primary: #55ff55;
+  --dim-accent-secondary: #55ffff;
+  --dim-title-color: #ffff55;
+  --dim-border-glow: rgba(85, 255, 85, 0.35);
+  background-color: #121824;
   background-image: 
-    radial-gradient(circle at 50% 15%, rgba(66, 135, 245, 0.25) 0%, transparent 70%),
-    linear-gradient(rgba(18, 22, 30, 0.92), rgba(14, 16, 22, 0.97)),
-    repeating-linear-gradient(0deg, #1b202c 0px, #1b202c 16px, #151822 16px, #151822 32px);
+    radial-gradient(circle at 50% 15%, rgba(66, 140, 255, 0.22) 0%, transparent 75%),
+    linear-gradient(rgba(18, 24, 34, 0.94), rgba(12, 16, 24, 0.98));
 }
 
+/* 2. NETHER BIOME */
 body.biome-nether {
-  background-color: #29080a;
+  --dim-accent-primary: #ff5555;
+  --dim-accent-secondary: #ffaa00;
+  --dim-title-color: #ff5555;
+  --dim-border-glow: rgba(255, 60, 40, 0.45);
+  background-color: #24080a;
   background-image: 
-    radial-gradient(circle at 50% 20%, rgba(255, 60, 0, 0.3) 0%, transparent 75%),
-    linear-gradient(rgba(36, 10, 12, 0.92), rgba(20, 5, 7, 0.97)),
-    repeating-linear-gradient(0deg, #2b0c0e 0px, #2b0c0e 16px, #20080a 16px, #20080a 32px);
+    radial-gradient(circle at 50% 25%, rgba(255, 60, 0, 0.35) 0%, transparent 80%),
+    linear-gradient(rgba(38, 10, 12, 0.94), rgba(20, 4, 6, 0.98));
 }
 
+/* 3. THE END BIOME */
 body.biome-end {
-  background-color: #0d0a1a;
+  --dim-accent-primary: #d568ff;
+  --dim-accent-secondary: #55ffff;
+  --dim-title-color: #e2e896;
+  --dim-border-glow: rgba(180, 80, 255, 0.4);
+  background-color: #0c0918;
   background-image: 
-    radial-gradient(circle at 50% 30%, rgba(170, 0, 255, 0.28) 0%, transparent 80%),
-    linear-gradient(rgba(13, 10, 26, 0.94), rgba(8, 6, 16, 0.98)),
-    repeating-linear-gradient(0deg, #17122b 0px, #17122b 16px, #110d20 16px, #110d20 32px);
+    radial-gradient(circle at 50% 20%, rgba(180, 60, 255, 0.3) 0%, transparent 80%),
+    linear-gradient(rgba(14, 10, 26, 0.94), rgba(8, 5, 16, 0.98));
 }
 
 /* Canvas Particles Layer */
@@ -101,6 +180,102 @@ body.biome-end {
 
 #pearl-fx-canvas {
   z-index: 999;
+}
+
+/* ============================================================
+   MINECRAFT ADVANCEMENT TOAST POPUP
+   ============================================================ */
+#advancement-toast {
+  position: fixed;
+  top: 20px;
+  right: -380px;
+  width: 320px;
+  background: #202020;
+  border: 3px solid #5a5a5a;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), inset 2px 2px 0 #7e7e7e, inset -2px -2px 0 #111;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 99999;
+  transition: right 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+#advancement-toast.show-advancement {
+  right: 20px;
+}
+
+.advancement-icon-frame {
+  width: 36px;
+  height: 36px;
+  background: #000;
+  border: 2px solid #ffaa00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.advancement-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.advancement-label {
+  font-size: 8px;
+  color: #ffff55;
+  text-shadow: 1px 1px 0 #000;
+  letter-spacing: 0.5px;
+}
+
+.advancement-title {
+  font-size: 11px;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* ============================================================
+   MINECRAFT TITLE ON-SCREEN HUD BANNER (/title effect)
+   ============================================================ */
+#minecraft-title-hud {
+  position: fixed;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  z-index: 9995;
+  pointer-events: none;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+#minecraft-title-hud.title-active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.mc-title-main {
+  font-size: 32px;
+  line-height: 1.3;
+  letter-spacing: 2px;
+  text-shadow: 
+    4px 4px 0 #000, 
+    -2px -2px 0 #000, 
+    2px -2px 0 #000, 
+    -2px 2px 0 #000,
+    0 0 20px currentColor;
+  margin-bottom: 8px;
+}
+
+.mc-title-sub {
+  font-family: var(--font-silk);
+  font-size: 15px;
+  color: #ffffaa;
+  text-shadow: 2px 2px 0 #000;
+  letter-spacing: 1px;
 }
 
 /* ============================================================
@@ -138,8 +313,9 @@ body.biome-end {
 }
 
 .player-rank {
-  color: var(--mc-red);
+  color: var(--dim-accent-primary);
   font-size: 11px;
+  transition: color 0.4s ease;
 }
 
 .player-name {
@@ -233,14 +409,15 @@ body.biome-end {
   border: 2px solid #373737;
   padding: 5px 10px;
   font-size: 10px;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-primary);
   box-shadow: inset 1px 1px 0 #4a4a50;
+  transition: color 0.4s ease;
 }
 
 .biome-dot {
   width: 8px;
   height: 8px;
-  background-color: var(--mc-green);
+  background-color: currentColor;
   display: inline-block;
   box-shadow: 0 0 6px currentColor;
 }
@@ -309,6 +486,32 @@ body.biome-end {
   grid-template-columns: 160px 1fr auto;
   gap: 25px;
   align-items: center;
+  position: relative;
+}
+
+/* Bouncing Minecraft Splash Text */
+.minecraft-splash-wrap {
+  position: absolute;
+  top: 12px;
+  right: 28px;
+}
+
+.minecraft-splash {
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  color: #ffff55;
+  text-shadow: 2px 2px 0 #3f3f00;
+  transform: rotate(-18deg);
+  display: inline-block;
+  animation: splashBounce 1s infinite alternate ease-in-out;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+@keyframes splashBounce {
+  0% { transform: rotate(-18deg) scale(0.95); }
+  100% { transform: rotate(-18deg) scale(1.12); }
 }
 
 /* Avatar Frame */
@@ -338,12 +541,13 @@ body.biome-end {
   position: absolute;
   bottom: -10px;
   background: #000;
-  color: var(--mc-green);
-  border: 2px solid var(--mc-green);
+  color: var(--dim-accent-primary);
+  border: 2px solid var(--dim-accent-primary);
   font-size: 9px;
   padding: 3px 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.8);
   white-space: nowrap;
+  transition: color 0.4s ease, border-color 0.4s ease;
 }
 
 /* Hero Details */
@@ -356,16 +560,18 @@ body.biome-end {
 }
 
 .hero-details h1 span.highlight {
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
+  transition: color 0.4s ease;
 }
 
 .hero-tagline {
   font-family: var(--font-silk);
   font-size: 13px;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-secondary);
   letter-spacing: 0.5px;
   margin-bottom: 14px;
   text-shadow: 2px 2px 0 #000;
+  transition: color 0.4s ease;
 }
 
 .hero-pills {
@@ -468,6 +674,95 @@ body.biome-end {
 }
 
 /* ============================================================
+   REALISTIC OBSIDIAN & END PORTAL GATEWAYS IN FLOW
+   ============================================================ */
+.dimension-gateway-banner {
+  margin: 45px 0 55px 0;
+  background: #14111d;
+  border: 4px solid #000;
+  box-shadow: 
+    inset 3px 3px 0 #3a3250, 
+    inset -3px -3px 0 #0a0710,
+    0 10px 30px rgba(0, 0, 0, 0.8);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+/* Authentic 4x5 Obsidian Nether Portal Frame in Gateway */
+.gateway-obsidian-portal {
+  display: grid;
+  grid-template-columns: repeat(4, 24px);
+  grid-template-rows: repeat(5, 24px);
+  gap: 0;
+  box-shadow: 0 0 25px rgba(180, 50, 255, 0.6);
+  border: 2px solid #000;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.obsidian-cell {
+  background-color: #120c1d;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 12 12'><rect width='12' height='12' fill='%23120c1d'/><rect x='1' y='2' width='2' height='2' fill='%232b1b3d'/><rect x='6' y='1' width='2' height='2' fill='%233e215e'/><rect x='2' y='6' width='3' height='2' fill='%23481f6e'/><rect x='7' y='7' width='3' height='2' fill='%232b1b3d'/><rect x='2' y='9' width='1' height='1' fill='%23773cb3'/></svg>");
+  background-size: 24px 24px;
+  border: 1px solid #28173d;
+}
+
+.portal-energy-cell {
+  background: radial-gradient(circle at center, #ea85ff 0%, #aa00aa 50%, #45006b 100%);
+  animation: netherEnergySwirl 1.2s infinite alternate ease-in-out;
+  border: none;
+  box-shadow: inset 0 0 6px #ffffff;
+}
+
+@keyframes netherEnergySwirl {
+  0% { filter: hue-rotate(0deg) brightness(1); }
+  50% { filter: hue-rotate(20deg) brightness(1.25); }
+  100% { filter: hue-rotate(-20deg) brightness(0.9); }
+}
+
+/* Realistic 3x3 End Portal Frame with Eyes of Ender */
+.gateway-end-portal {
+  display: grid;
+  grid-template-columns: repeat(3, 32px);
+  grid-template-rows: repeat(3, 32px);
+  gap: 0;
+  box-shadow: 0 0 25px rgba(85, 255, 255, 0.6);
+  border: 2px solid #000;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.end-frame-cell {
+  background-color: #3b5a45;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2342624d'/><rect x='1' y='1' width='14' height='14' fill='%232e4837'/><rect x='3' y='3' width='10' height='10' fill='%231f3125'/><circle cx='8' cy='8' r='4' fill='%2310575c'/><circle cx='8' cy='8' r='2.5' fill='%232de0ea'/><circle cx='8' cy='8' r='1' fill='%23000000'/></svg>");
+  background-size: 32px 32px;
+  border: 1px solid #1f3326;
+  position: relative;
+}
+
+.end-void-cell {
+  background-color: #000002;
+  background-image: 
+    radial-gradient(1px 1px at 4px 6px, #ffffff, transparent),
+    radial-gradient(1.5px 1.5px at 12px 14px, #55ffff, transparent),
+    radial-gradient(1px 1px at 20px 8px, #d568ff, transparent),
+    radial-gradient(1.5px 1.5px at 26px 24px, #ffffff, transparent);
+  background-size: 32px 32px;
+  animation: cosmicVoidDrift 3s linear infinite;
+}
+
+@keyframes cosmicVoidDrift {
+  from { background-position: 0 0; }
+  to { background-position: 32px 32px; }
+}
+
+/* ============================================================
    SECTIONS & PANELS
    ============================================================ */
 .section-wrapper {
@@ -498,19 +793,21 @@ body.biome-end {
 
 .window-title {
   font-size: 13px;
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
   text-shadow: 2px 2px 0 #000;
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: color 0.4s ease;
 }
 
 .window-badge {
   font-size: 9px;
   background: #151518;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-primary);
   padding: 3px 8px;
   border: 1px solid #444;
+  transition: color 0.4s ease;
 }
 
 .mc-window-body {
@@ -527,7 +824,7 @@ body.biome-end {
   box-shadow: 
     inset 4px 4px 0 #8c2a33, 
     inset -4px -4px 0 #28090d,
-    0 12px 30px rgba(80, 10, 10, 0.6);
+    0 12px 30px rgba(100, 15, 15, 0.7);
 }
 .mc-window.nether-window .mc-window-body {
   background: #1c080a;
@@ -539,7 +836,7 @@ body.biome-end {
   box-shadow: 
     inset 4px 4px 0 #4f4577, 
     inset -4px -4px 0 #151221,
-    0 12px 30px rgba(50, 10, 80, 0.6);
+    0 12px 30px rgba(70, 20, 100, 0.7);
 }
 .mc-window.end-window .mc-window-body {
   background: #120e1e;
@@ -563,11 +860,12 @@ body.biome-end {
 
 .dossier-heading {
   font-size: 13px;
-  color: var(--mc-green);
+  color: var(--dim-accent-primary);
   margin-bottom: 14px;
   text-shadow: 2px 2px 0 #000;
   border-bottom: 2px dashed #444;
   padding-bottom: 8px;
+  transition: color 0.4s ease;
 }
 
 .dossier-text {
@@ -600,7 +898,8 @@ body.biome-end {
 }
 
 .stat-val {
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
+  transition: color 0.4s ease;
 }
 
 /* AI Quest Card */
@@ -626,8 +925,9 @@ body.biome-end {
 
 .quest-title {
   font-size: 13px;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-secondary);
   text-shadow: 2px 2px 0 #000;
+  transition: color 0.4s ease;
 }
 
 .quest-desc {
@@ -656,8 +956,9 @@ body.biome-end {
 }
 
 .step-chk {
-  color: var(--mc-green);
+  color: var(--dim-accent-primary);
   font-weight: bold;
+  transition: color 0.4s ease;
 }
 
 /* ============================================================
@@ -681,16 +982,16 @@ body.biome-end {
   flex-direction: column;
   gap: 12px;
   position: relative;
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .exp-card:hover {
   transform: translateY(-4px);
-  border-color: var(--mc-red);
+  border-color: var(--dim-accent-primary);
   box-shadow: 
     inset 2px 2px 0 #4f4f5c, 
     inset -2px -2px 0 #0f0f13,
-    0 6px 16px rgba(255, 60, 60, 0.25);
+    0 6px 16px var(--dim-border-glow);
 }
 
 .exp-card-header {
@@ -711,8 +1012,9 @@ body.biome-end {
 
 .exp-card-title {
   font-size: 11px;
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
   text-shadow: 1px 1px 0 #000;
+  transition: color 0.4s ease;
 }
 
 .exp-card-desc {
@@ -733,8 +1035,9 @@ body.biome-end {
   font-size: 8px;
   background: #0e0e12;
   border: 1px solid #333;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-secondary);
   padding: 3px 6px;
+  transition: color 0.4s ease;
 }
 
 /* Interactive Server Console / CLI Simulator */
@@ -814,7 +1117,7 @@ body.biome-end {
 }
 
 .console-prompt-sym {
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
   font-family: var(--font-term);
   font-size: 20px;
 }
@@ -841,7 +1144,7 @@ body.biome-end {
 .cmd-chip {
   background: #1f2029;
   border: 1px solid #3c3e4f;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-secondary);
   font-size: 9px;
   padding: 4px 8px;
   cursor: pointer;
@@ -849,7 +1152,7 @@ body.biome-end {
 
 .cmd-chip:hover {
   background: #2f3242;
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
 }
 
 /* ============================================================
@@ -990,12 +1293,12 @@ body.biome-end {
   display: flex;
   gap: 14px;
   align-items: flex-start;
-  transition: transform 0.15s;
+  transition: transform 0.15s, border-color 0.15s;
 }
 
 .hobby-card:hover {
   transform: translateX(4px);
-  border-color: var(--mc-purple);
+  border-color: var(--dim-accent-primary);
 }
 
 .hobby-icon-wrap {
@@ -1011,8 +1314,9 @@ body.biome-end {
 
 .hobby-info h4 {
   font-size: 11px;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-secondary);
   margin-bottom: 6px;
+  transition: color 0.4s ease;
 }
 
 .hobby-info p {
@@ -1035,11 +1339,12 @@ body.biome-end {
 
 .chamber-heading {
   font-size: 12px;
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
   text-shadow: 2px 2px 0 #000;
   display: flex;
   align-items: center;
   gap: 8px;
+  transition: color 0.4s ease;
 }
 
 .ai-weights-controls {
@@ -1066,14 +1371,15 @@ body.biome-end {
 
 .weight-slider {
   flex: 1;
-  accent-color: var(--mc-green);
+  accent-color: var(--dim-accent-primary);
   cursor: pointer;
 }
 
 .weight-val {
-  color: var(--mc-green);
+  color: var(--dim-accent-primary);
   width: 35px;
   text-align: right;
+  transition: color 0.4s ease;
 }
 
 .ai-prediction-screen {
@@ -1091,10 +1397,11 @@ body.biome-end {
 
 .pred-result {
   font-size: 13px;
-  color: var(--mc-green);
-  text-shadow: 0 0 10px rgba(85, 255, 85, 0.5);
+  color: var(--dim-accent-primary);
+  text-shadow: 0 0 10px var(--dim-border-glow);
   font-family: var(--font-silk);
   font-weight: bold;
+  transition: color 0.4s ease;
 }
 
 .pred-bar {
@@ -1136,8 +1443,9 @@ body.biome-end {
 
 .chest-title {
   font-size: 14px;
-  color: var(--mc-aqua);
+  color: var(--dim-accent-secondary);
   text-shadow: 2px 2px 0 #000;
+  transition: color 0.4s ease;
 }
 
 .contact-channels-grid {
@@ -1161,7 +1469,7 @@ body.biome-end {
 
 .contact-card:hover {
   background: #192226;
-  border-color: var(--mc-aqua);
+  border-color: var(--dim-accent-secondary);
   transform: translateY(-2px);
 }
 
@@ -1177,8 +1485,9 @@ body.biome-end {
 
 .contact-card-info h5 {
   font-size: 10px;
-  color: var(--mc-yellow);
+  color: var(--dim-title-color);
   margin-bottom: 4px;
+  transition: color 0.4s ease;
 }
 
 .contact-card-info p {
@@ -1201,7 +1510,8 @@ body.biome-end {
 .copy-cmd-text {
   font-family: var(--font-term);
   font-size: 20px;
-  color: var(--mc-green);
+  color: var(--dim-accent-primary);
+  transition: color 0.4s ease;
 }
 
 /* ============================================================
@@ -1221,6 +1531,21 @@ body.biome-end {
   flex-direction: column;
   align-items: center;
   gap: 4px;
+}
+
+/* Floating Selected Item Name above Hotbar */
+#hotbar-item-name {
+  font-size: 11px;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #000;
+  min-height: 16px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+#hotbar-item-name.item-name-show {
+  opacity: 1;
 }
 
 .hotbar-slots {
@@ -1281,16 +1606,16 @@ body.biome-end {
   text-shadow: 1px 1px 0 #000, -1px -1px 0 #000;
 }
 
-/* Tooltip on Slot Hover */
+/* Authentic Minecraft Item Tooltip Box */
 .slot-tooltip {
   position: absolute;
-  bottom: 60px;
+  bottom: 64px;
   left: 50%;
   transform: translateX(-50%);
-  background: #110d19;
-  border: 2px solid #2b1f42;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.8);
-  padding: 6px 10px;
+  background: #100010;
+  border: 2px solid #28007f;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.9), inset 1px 1px 0 #3a00b8;
+  padding: 8px 12px;
   white-space: nowrap;
   pointer-events: none;
   opacity: 0;
@@ -1298,7 +1623,7 @@ body.biome-end {
   z-index: 200;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .hotbar-slot:hover .slot-tooltip {
@@ -1306,19 +1631,19 @@ body.biome-end {
 }
 
 .tooltip-title {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--mc-yellow);
   text-shadow: 1px 1px 0 #000;
 }
 
 .tooltip-lore {
   font-family: var(--font-silk);
-  font-size: 9px;
+  font-size: 10px;
   color: #a8a0c2;
 }
 
 /* ============================================================
-   NETHER PORTAL TRANSITION OVERLAY
+   ACTUAL OBSIDIAN NETHER PORTAL FULLSCREEN TELEPORT OVERLAY
    ============================================================ */
 #nether-portal-overlay {
   position: fixed;
@@ -1326,57 +1651,125 @@ body.biome-end {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 9999;
+  z-index: 99999;
   pointer-events: none;
   opacity: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 20px;
-  background: radial-gradient(circle at center, rgba(160, 32, 240, 0.95) 0%, rgba(45, 0, 70, 0.98) 70%);
-  transition: opacity 0.4s ease;
+  background: rgba(14, 0, 24, 0.96);
+  transition: opacity 0.35s ease;
 }
 
 #nether-portal-overlay.portal-active {
   opacity: 1;
   pointer-events: all;
-  animation: portalWobble 0.25s infinite alternate ease-in-out;
 }
 
-@keyframes portalWobble {
-  0% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg) blur(0px); }
-  50% { transform: scale(1.02) rotate(0.4deg); filter: hue-rotate(15deg) blur(1px); }
-  100% { transform: scale(0.99) rotate(-0.4deg); filter: hue-rotate(-15deg) blur(2px); }
+/* Fullscreen Realistic Obsidian Portal Arch */
+.portal-obsidian-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.9);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.portal-vortex-ring {
-  width: 220px;
-  height: 220px;
-  border: 12px double #d264f5;
-  border-radius: 50%;
-  box-shadow: 
-    0 0 40px #aa00aa, 
-    inset 0 0 40px #550055;
-  animation: spinPortal 2s linear infinite;
+#nether-portal-overlay.portal-active .portal-obsidian-stage {
+  transform: scale(2.8);
+  filter: hue-rotate(25deg) blur(1px);
 }
 
-@keyframes spinPortal {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.stage-obsidian-arch {
+  display: grid;
+  grid-template-columns: repeat(4, 54px);
+  grid-template-rows: repeat(5, 54px);
+  border: 4px solid #000;
+  box-shadow: 0 0 60px rgba(180, 50, 255, 0.9);
 }
 
-.portal-msg {
-  font-size: 16px;
+.stage-obsidian-arch .obsidian-cell {
+  background-size: 54px 54px;
+}
+
+.stage-portal-energy {
+  background: radial-gradient(circle at center, #ff99ff 0%, #aa00aa 45%, #3d005c 100%);
+  animation: netherEnergySwirl 0.8s infinite alternate ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.portal-status-text-hud {
+  margin-top: 25px;
+  text-align: center;
+  z-index: 10;
+}
+
+.portal-hud-main {
+  font-size: 20px;
   color: #ffffff;
-  text-shadow: 2px 2px 0 #000, 0 0 15px #ff55ff;
-  letter-spacing: 1px;
+  text-shadow: 3px 3px 0 #000, 0 0 20px #ff55ff;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
 }
 
-.portal-subtext {
+.portal-hud-sub {
   font-family: var(--font-silk);
-  font-size: 12px;
-  color: var(--mc-yellow);
+  font-size: 13px;
+  color: #ffff55;
+  text-shadow: 2px 2px 0 #000;
+}
+
+/* ============================================================
+   ACTUAL END PORTAL FULLSCREEN TELEPORT OVERLAY
+   ============================================================ */
+#end-portal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(3, 1, 8, 0.97);
+  transition: opacity 0.35s ease;
+}
+
+#end-portal-overlay.end-portal-active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.stage-end-portal-frame {
+  display: grid;
+  grid-template-columns: repeat(3, 75px);
+  grid-template-rows: repeat(3, 75px);
+  border: 4px solid #000;
+  box-shadow: 0 0 70px rgba(85, 255, 255, 0.85);
+  transform: perspective(400px) rotateX(25deg) scale(0.95);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#end-portal-overlay.end-portal-active .stage-end-portal-frame {
+  transform: perspective(400px) rotateX(0deg) scale(3.2);
+}
+
+.stage-end-void {
+  background: #000000;
+  background-image: 
+    radial-gradient(2px 2px at 10px 15px, #ffffff, transparent),
+    radial-gradient(2.5px 2.5px at 30px 45px, #55ffff, transparent),
+    radial-gradient(2px 2px at 55px 20px, #d568ff, transparent),
+    radial-gradient(3px 3px at 40px 60px, #ffffff, transparent);
+  background-size: 75px 75px;
+  animation: cosmicVoidDrift 1.5s linear infinite;
+  box-shadow: inset 0 0 20px #2fe3ea;
 }
 
 /* Screen Teleport Flash (Ender Pearl Landing) */
@@ -1386,11 +1779,11 @@ body.biome-end {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(85, 255, 255, 0.85);
+  background: rgba(85, 255, 255, 0.9);
   pointer-events: none;
   opacity: 0;
-  z-index: 9998;
-  transition: opacity 0.25s ease-out;
+  z-index: 99998;
+  transition: opacity 0.22s ease-out;
 }
 
 #teleport-flash.flash-active {
@@ -1399,14 +1792,154 @@ body.biome-end {
 
 /* Screen Shake effect */
 .camera-shake {
-  animation: camShake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+  animation: camShake 0.35s cubic-bezier(.36,.07,.19,.97) both;
 }
 
 @keyframes camShake {
-  10%, 90% { transform: translate3d(-2px, 0, 0); }
-  20%, 80% { transform: translate3d(3px, -2px, 0); }
-  30%, 50%, 70% { transform: translate3d(-5px, 3px, 0); }
-  40%, 60% { transform: translate3d(4px, -3px, 0); }
+  10%, 90% { transform: translate3d(-3px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, -3px, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 4px, 0); }
+  40%, 60% { transform: translate3d(5px, -4px, 0); }
+}
+
+/* ============================================================
+   MINECRAFT INVENTORY GUI MODAL (TRIGGERED BY 'E' KEY)
+   ============================================================ */
+#inventory-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 9000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+#inventory-modal.inv-open {
+  display: flex;
+}
+
+.mc-inv-dialog {
+  background: #c6c6c6;
+  border: 4px solid #000;
+  box-shadow: 
+    inset 4px 4px 0 #ffffff, 
+    inset -4px -4px 0 #555555,
+    0 16px 40px rgba(0, 0, 0, 0.9);
+  padding: 14px;
+  width: 520px;
+  max-width: 95vw;
+}
+
+.inv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.inv-title {
+  color: #373737;
+  font-size: 13px;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+.inv-close-btn {
+  background: #8b8b8b;
+  border: 2px solid #000;
+  box-shadow: inset 2px 2px 0 #fff, inset -2px -2px 0 #373737;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+.inv-top-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 140px;
+  gap: 14px;
+  background: #8b8b8b;
+  border: 2px solid #373737;
+  box-shadow: inset 2px 2px 0 #555, inset -2px -2px 0 #fff;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.inv-armor-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inv-slot-box {
+  width: 36px;
+  height: 36px;
+  background: #8b8b8b;
+  border: 2px solid #373737;
+  box-shadow: inset 2px 2px 0 #373737, inset -2px -2px 0 #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.inv-player-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  border: 2px solid #000;
+  box-shadow: inset 2px 2px 0 #333;
+}
+
+.inv-player-avatar {
+  width: 68px;
+  height: 110px;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.inv-crafting-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.crafting-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 34px);
+  gap: 4px;
+}
+
+.inv-craft-output {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.inv-storage-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 4px;
+  background: #8b8b8b;
+  border: 2px solid #373737;
+  box-shadow: inset 2px 2px 0 #555, inset -2px -2px 0 #fff;
+  padding: 8px;
+}
+
+.inv-storage-grid .inv-slot-box {
+  width: auto;
+  aspect-ratio: 1;
+  font-size: 14px;
+  position: relative;
+  cursor: pointer;
+}
+.inv-storage-grid .inv-slot-box:hover {
+  background: #aaa;
 }
 
 /* ============================================================
@@ -1477,6 +2010,10 @@ body.biome-end {
     text-align: center;
     justify-items: center;
   }
+  .minecraft-splash-wrap {
+    position: static;
+    margin-bottom: 10px;
+  }
   .hero-pills {
     justify-content: center;
   }
@@ -1484,7 +2021,18 @@ body.biome-end {
     grid-template-columns: 1fr;
   }
   .hud-status-bars {
-    display: none; /* Keep HUD compact on mobile */
+    display: none;
+  }
+  .mc-title-main {
+    font-size: 24px;
+  }
+  .stage-obsidian-arch {
+    grid-template-columns: repeat(4, 38px);
+    grid-template-rows: repeat(5, 38px);
+  }
+  .stage-end-portal-frame {
+    grid-template-columns: repeat(3, 50px);
+    grid-template-rows: repeat(3, 50px);
   }
 }
 
@@ -1506,5 +2054,12 @@ body.biome-end {
   .mc-window-body {
     padding: 14px;
   }
+  .stage-obsidian-arch {
+    grid-template-columns: repeat(4, 28px);
+    grid-template-rows: repeat(5, 28px);
+  }
+  .stage-end-portal-frame {
+    grid-template-columns: repeat(3, 38px);
+    grid-template-rows: repeat(3, 38px);
+  }
 }
-

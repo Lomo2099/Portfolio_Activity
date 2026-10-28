@@ -1,8 +1,95 @@
 // Minecraft Portfolio Engine - Kanav (app.js)
+// Complete with Authentic Obsidian Nether Portal, Cosmic End Portal, Scroll Lock & Advancements
 
 document.addEventListener("DOMContentLoaded", () => {
   // -------------------------------------------------------------
-  // 1. Ambient Particle System (Canvas)
+  // 1. Scroll Locking Mechanism (Guarantees zero scroll during warps)
+  // -------------------------------------------------------------
+  let isScrollLocked = false;
+
+  function preventDefaultWheel(e) {
+    if (isScrollLocked) e.preventDefault();
+  }
+  function preventDefaultTouch(e) {
+    if (isScrollLocked) e.preventDefault();
+  }
+  function preventDefaultKeys(e) {
+    if (!isScrollLocked) return;
+    if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(e.key)) {
+      e.preventDefault();
+    }
+  }
+
+  function lockScroll() {
+    isScrollLocked = true;
+    document.documentElement.classList.add("mc-scroll-locked");
+    document.body.classList.add("mc-scroll-locked");
+    window.addEventListener("wheel", preventDefaultWheel, { passive: false });
+    window.addEventListener("touchmove", preventDefaultTouch, { passive: false });
+    window.addEventListener("keydown", preventDefaultKeys, { passive: false });
+  }
+
+  function unlockScroll() {
+    isScrollLocked = false;
+    document.documentElement.classList.remove("mc-scroll-locked");
+    document.body.classList.remove("mc-scroll-locked");
+    window.removeEventListener("wheel", preventDefaultWheel);
+    window.removeEventListener("touchmove", preventDefaultTouch);
+    window.removeEventListener("keydown", preventDefaultKeys);
+  }
+
+  // -------------------------------------------------------------
+  // 2. Minecraft Advancement Toast System
+  // -------------------------------------------------------------
+  const toastEl = document.getElementById("advancement-toast");
+  const toastIcon = document.getElementById("advancement-icon");
+  const toastLabel = document.getElementById("advancement-label");
+  const toastTitle = document.getElementById("advancement-title");
+  let toastTimer = null;
+
+  function showAdvancement(icon, title, label = "ADVANCEMENT MADE!") {
+    if (!toastEl) return;
+    clearTimeout(toastTimer);
+
+    toastIcon.textContent = icon;
+    toastLabel.textContent = label;
+    toastTitle.textContent = title;
+
+    toastEl.classList.add("show-advancement");
+    if (window.soundEngine && window.soundEngine.playAdvancement) {
+      window.soundEngine.playAdvancement();
+    }
+
+    toastTimer = setTimeout(() => {
+      toastEl.classList.remove("show-advancement");
+    }, 4000);
+  }
+
+  // -------------------------------------------------------------
+  // 3. Minecraft Title Screen Overlay (/title effect)
+  // -------------------------------------------------------------
+  const titleHud = document.getElementById("minecraft-title-hud");
+  const titleMain = document.getElementById("mc-title-main");
+  const titleSub = document.getElementById("mc-title-sub");
+  let titleTimer = null;
+
+  function showMinecraftTitle(mainText, subText, colorHex) {
+    if (!titleHud) return;
+    clearTimeout(titleTimer);
+
+    titleMain.textContent = mainText;
+    titleMain.style.color = colorHex;
+    titleSub.textContent = subText;
+
+    titleHud.classList.add("title-active");
+
+    titleTimer = setTimeout(() => {
+      titleHud.classList.remove("title-active");
+    }, 2200);
+  }
+
+  // -------------------------------------------------------------
+  // 4. Ambient Particle System (Canvas)
   // -------------------------------------------------------------
   const ambientCanvas = document.getElementById("ambient-canvas");
   const ambientCtx = ambientCanvas.getContext("2d");
@@ -34,16 +121,16 @@ document.addEventListener("DOMContentLoaded", () => {
         this.color = Math.random() > 0.5 ? "rgba(85, 255, 85, 0.6)" : "rgba(85, 255, 255, 0.4)";
         this.alpha = Math.random() * 0.6 + 0.2;
       } else if (currentBiome === "nether") {
-        this.vx = (Math.random() - 0.5) * 1.2;
-        this.vy = -Math.random() * 2.2 - 0.8; // Fast rising fire embers
-        this.color = Math.random() > 0.4 ? "rgba(255, 85, 0, 0.8)" : "rgba(255, 215, 0, 0.7)";
-        this.alpha = Math.random() * 0.8 + 0.2;
+        this.vx = (Math.random() - 0.5) * 1.5;
+        this.vy = -Math.random() * 2.8 - 1.0;
+        this.color = Math.random() > 0.4 ? "rgba(255, 85, 0, 0.85)" : "rgba(255, 215, 0, 0.75)";
+        this.alpha = Math.random() * 0.85 + 0.2;
       } else {
         // The End
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
-        this.color = Math.random() > 0.5 ? "rgba(180, 80, 255, 0.7)" : "rgba(100, 240, 255, 0.6)";
-        this.alpha = Math.random() * 0.7 + 0.3;
+        this.color = Math.random() > 0.5 ? "rgba(213, 104, 255, 0.75)" : "rgba(85, 255, 255, 0.65)";
+        this.alpha = Math.random() * 0.75 + 0.25;
       }
       this.decay = Math.random() * 0.005 + 0.002;
     }
@@ -66,8 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Populate particles
-  for (let i = 0; i < 60; i++) {
+  for (let i = 0; i < 70; i++) {
     particles.push(new AmbientParticle());
   }
 
@@ -82,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
   animateAmbient();
 
   // -------------------------------------------------------------
-  // 2. Ender Pearl Throw & Teleportation FX
+  // 5. Ender Pearl Throw & Flight FX Canvas
   // -------------------------------------------------------------
   const fxCanvas = document.getElementById("pearl-fx-canvas");
   const fxCtx = fxCanvas.getContext("2d");
@@ -94,29 +180,25 @@ document.addEventListener("DOMContentLoaded", () => {
     fxCanvas.height = window.innerHeight;
   });
 
-  const activeEffects = [];
-
   function throwEnderPearl(startX, startY, targetEl, onComplete) {
     if (!targetEl) return;
+    lockScroll(); // Lock scroll during teleport
+
     const targetRect = targetEl.getBoundingClientRect();
     const destX = targetRect.left + targetRect.width / 2;
     const destY = targetRect.top + 80;
 
     window.soundEngine.playPearlThrow();
 
-    // Flight parameters
-    const totalDuration = 550; // ms
+    const totalDuration = 550;
     const startTime = performance.now();
     const pearlTrail = [];
-
-    // Arc control height
     const peakHeight = Math.min(startY, destY) - 180;
 
     function renderPearlFlight(now) {
       const elapsed = now - startTime;
       const progress = Math.min(1, elapsed / totalDuration);
 
-      // Quadratic Bezier curve
       const p0 = { x: startX, y: startY };
       const p1 = { x: (startX + destX) / 2, y: peakHeight };
       const p2 = { x: destX, y: destY };
@@ -125,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const curX = (1 - t) * (1 - t) * p0.x + 2 * (1 - t) * t * p1.x + t * t * p2.x;
       const curY = (1 - t) * (1 - t) * p0.y + 2 * (1 - t) * t * p1.y + t * t * p2.y;
 
-      // Spawn trail particles
       for (let i = 0; i < 2; i++) {
         pearlTrail.push({
           x: curX + (Math.random() - 0.5) * 8,
@@ -139,10 +220,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Clear & Draw
       fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
 
-      // Draw trails
       for (let i = pearlTrail.length - 1; i >= 0; i--) {
         const pt = pearlTrail[i];
         pt.x += pt.vx;
@@ -157,7 +236,6 @@ document.addEventListener("DOMContentLoaded", () => {
         fxCtx.fillRect(Math.floor(pt.x), Math.floor(pt.y), pt.size, pt.size);
       }
 
-      // Draw pearl sprite (teal core with cyan border)
       fxCtx.globalAlpha = 1.0;
       fxCtx.fillStyle = "#000000";
       fxCtx.fillRect(curX - 6, curY - 6, 12, 12);
@@ -171,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (progress < 1) {
         requestAnimationFrame(renderPearlFlight);
       } else {
-        // Landing explosion!
         triggerPearlImpact(destX, destY, targetEl, onComplete);
       }
     }
@@ -182,7 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function triggerPearlImpact(x, y, targetEl, onComplete) {
     window.soundEngine.playPearlTeleport();
 
-    // Impact blast particles
     const burstParticles = [];
     for (let i = 0; i < 40; i++) {
       const angle = Math.random() * Math.PI * 2;
@@ -221,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     renderBurst();
 
-    // Screen flash & camera shake
+    // Flash & Camera Shake
     const flashEl = document.getElementById("teleport-flash");
     flashEl.classList.add("flash-active");
     document.body.classList.add("camera-shake");
@@ -234,26 +310,33 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.remove("camera-shake");
     }, 350);
 
-    // Instant Teleport Scroll to Target
-    targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Scroll to target and unlock
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
-    if (onComplete) onComplete();
+    setTimeout(() => {
+      unlockScroll();
+      if (onComplete) onComplete();
+    }, 450);
   }
 
   // -------------------------------------------------------------
-  // 3. Nether Portal Warp Sequence
+  // 6. Realistic Fullscreen Obsidian Nether Portal Teleportation
   // -------------------------------------------------------------
-  const portalOverlay = document.getElementById("nether-portal-overlay");
-  const portalMsg = document.getElementById("portal-dimension-name");
+  const netherPortalOverlay = document.getElementById("nether-portal-overlay");
+  const bgTextureLayer = document.getElementById("mc-bg-texture-layer");
+  const biomeText = document.getElementById("current-biome-text");
 
-  function triggerNetherPortal(targetBiome, targetSectionId) {
+  function triggerNetherPortal(targetBiome = "nether", targetSectionId = "achievements") {
+    lockScroll(); // Disable all user scrolling until animation is done!
     window.soundEngine.playPortalWarp();
-    portalMsg.textContent = `Entering ${targetBiome.toUpperCase()}...`;
-    portalOverlay.classList.add("portal-active");
+
+    netherPortalOverlay.classList.add("portal-active");
 
     setTimeout(() => {
-      // Switch Biome
-      setBiome(targetBiome);
+      setBiome(targetBiome, false, true);
+      showAdvancement("🔥", "We Need to Go Deeper");
 
       const targetEl = document.getElementById(targetSectionId);
       if (targetEl) {
@@ -261,29 +344,151 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       setTimeout(() => {
-        portalOverlay.classList.remove("portal-active");
+        netherPortalOverlay.classList.remove("portal-active");
         window.soundEngine.playDing();
-      }, 500);
-    }, 1100);
+        unlockScroll(); // Finished! Unlock scroll
+      }, 700);
+    }, 1200);
   }
 
-  function setBiome(biome) {
+  // -------------------------------------------------------------
+  // 7. Realistic Fullscreen End Portal Teleportation
+  // -------------------------------------------------------------
+  const endPortalOverlay = document.getElementById("end-portal-overlay");
+
+  function triggerEndPortal(targetSectionId = "hobbies") {
+    lockScroll(); // Disable user scrolling
+    window.soundEngine.playPearlThrow();
+
+    endPortalOverlay.classList.add("end-portal-active");
+
+    setTimeout(() => {
+      window.soundEngine.playPearlTeleport();
+      setBiome("end", false, true);
+      showAdvancement("👁️", "The End?");
+
+      const targetEl = document.getElementById(targetSectionId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: "auto", block: "start" });
+      }
+
+      setTimeout(() => {
+        endPortalOverlay.classList.remove("end-portal-active");
+        window.soundEngine.playDing();
+        unlockScroll(); // Finished! Unlock scroll
+      }, 700);
+    }, 1200);
+  }
+
+  function setBiome(biome, triggerSound = true, showTitle = true) {
     currentBiome = biome;
+
     document.body.classList.remove("biome-overworld", "biome-nether", "biome-end");
     document.body.classList.add(`biome-${biome}`);
 
-    const biomeLabel = document.getElementById("current-biome-text");
-    if (biomeLabel) {
-      biomeLabel.textContent = biome.charAt(0).toUpperCase() + biome.slice(1);
+    if (bgTextureLayer) {
+      bgTextureLayer.classList.remove("mc-dirt-bg", "mc-cobble-bg", "mc-netherrack-bg", "mc-endstone-bg");
+      if (biome === "nether") {
+        bgTextureLayer.classList.add("mc-netherrack-bg");
+      } else if (biome === "end") {
+        bgTextureLayer.classList.add("mc-endstone-bg");
+      } else {
+        bgTextureLayer.classList.add("mc-dirt-bg");
+      }
+    }
+
+    if (biomeText) {
+      biomeText.textContent = biome.charAt(0).toUpperCase() + biome.slice(1);
+    }
+
+    if (biome === "nether") {
+      if (triggerSound) window.soundEngine.playPortalWarp();
+      if (showTitle) showMinecraftTitle("THE NETHER", "Entering Nether Fortress", "#ff5555");
+    } else if (biome === "end") {
+      if (triggerSound) window.soundEngine.playPearlTeleport();
+      if (showTitle) showMinecraftTitle("THE END", "Entering Celestial Void", "#d568ff");
+    } else {
+      if (triggerSound) window.soundEngine.playDing();
+      if (showTitle) showMinecraftTitle("THE OVERWORLD", "Plains Base Camp", "#55ff55");
     }
   }
 
   // -------------------------------------------------------------
-  // 4. Hotbar Navigation (1-9 & Click)
+  // 8. Automatic Scroll-Triggered Gateway Interception & Scroll Lock
+  // -------------------------------------------------------------
+  const trackedSections = [
+    { id: "hero", biome: "overworld", slotIndex: 0 },
+    { id: "about", biome: "overworld", slotIndex: 0 },
+    { id: "experience", biome: "overworld", slotIndex: 1 },
+    { id: "nether-gateway", biome: "nether", isNetherGateway: true, slotIndex: 2 },
+    { id: "achievements", biome: "nether", slotIndex: 2 },
+    { id: "end-gateway", biome: "end", isEndGateway: true, slotIndex: 3 },
+    { id: "hobbies", biome: "end", slotIndex: 3 },
+    { id: "contact", biome: "overworld", slotIndex: 7 }
+  ];
+
+  let lastScrollWarpTime = 0;
+
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      if (isScrollLocked) return;
+
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const sectionId = entry.target.id;
+        const config = trackedSections.find((s) => s.id === sectionId);
+        if (!config) return;
+
+        // Hotbar Slot Sync
+        if (config.slotIndex !== undefined) {
+          hotbarSlots.forEach((s) => s.classList.remove("active"));
+          if (hotbarSlots[config.slotIndex]) {
+            hotbarSlots[config.slotIndex].classList.add("active");
+          }
+        }
+
+        const now = performance.now();
+        if (config.biome !== currentBiome && now - lastScrollWarpTime > 2000) {
+          lastScrollWarpTime = now;
+
+          if (config.isNetherGateway || (config.biome === "nether" && currentBiome === "overworld")) {
+            triggerNetherPortal("nether", "achievements");
+          } else if (config.isEndGateway || (config.biome === "end" && currentBiome === "nether")) {
+            triggerEndPortal("hobbies");
+          } else if (config.biome === "overworld") {
+            setBiome("overworld", true, true);
+          }
+        }
+      });
+    },
+    { threshold: 0.25 }
+  );
+
+  trackedSections.forEach((s) => {
+    const el = document.getElementById(s.id);
+    if (el) sectionObserver.observe(el);
+  });
+
+  // -------------------------------------------------------------
+  // 9. Hotbar Navigation (1-9 & Click) + Item Name Tooltip HUD
   // -------------------------------------------------------------
   const hotbarSlots = document.querySelectorAll(".hotbar-slot");
+  const itemNameHud = document.getElementById("hotbar-item-name");
+  let itemNameTimer = null;
+
+  function showItemName(name) {
+    if (!itemNameHud) return;
+    clearTimeout(itemNameTimer);
+    itemNameHud.textContent = name;
+    itemNameHud.classList.add("item-name-show");
+    itemNameTimer = setTimeout(() => {
+      itemNameHud.classList.remove("item-name-show");
+    }, 2000);
+  }
 
   function activateHotbarSlot(slotIndex, originEvent) {
+    if (isScrollLocked) return;
     hotbarSlots.forEach((s) => s.classList.remove("active"));
     const selectedSlot = hotbarSlots[slotIndex];
     if (!selectedSlot) return;
@@ -291,13 +496,16 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedSlot.classList.add("active");
     const targetId = selectedSlot.getAttribute("data-target");
     const warpType = selectedSlot.getAttribute("data-warp") || "pearl";
+    const slotName = selectedSlot.querySelector(".tooltip-title")?.textContent || "Selected Item";
+    showItemName(slotName);
+
     const targetEl = document.getElementById(targetId);
 
     if (warpType === "portal") {
-      const biome = selectedSlot.getAttribute("data-biome") || "nether";
-      triggerNetherPortal(biome, targetId);
+      triggerNetherPortal("nether", targetId);
+    } else if (warpType === "endportal") {
+      triggerEndPortal(targetId);
     } else {
-      // Ender Pearl Throw from hotbar or click origin
       let startX = window.innerWidth / 2;
       let startY = window.innerHeight - 60;
       if (originEvent && originEvent.clientX) {
@@ -312,11 +520,71 @@ document.addEventListener("DOMContentLoaded", () => {
     slot.addEventListener("click", (e) => {
       activateHotbarSlot(index, e);
     });
+    slot.addEventListener("mouseenter", () => {
+      const slotName = slot.querySelector(".tooltip-title")?.textContent;
+      if (slotName) showItemName(slotName);
+    });
   });
 
-  // Keyboard hotkeys (1 - 9)
+  // -------------------------------------------------------------
+  // 10. Minecraft Splash Text Click Interaction
+  // -------------------------------------------------------------
+  const splashQuotes = [
+    "Also try AI & ML!",
+    "100% Redstone Compatible!",
+    "20.0 TPS Zero Lag!",
+    "Never dig straight down!",
+    "Delhi State TT Champion!",
+    "Spigot & Paper tuned!",
+    "Autonomous Robotics!",
+    "Beware of Creepers!",
+    "Press E for Inventory!"
+  ];
+  let splashIdx = 0;
+  const splashEl = document.getElementById("minecraft-splash");
+  if (splashEl) {
+    splashEl.addEventListener("click", () => {
+      splashIdx = (splashIdx + 1) % splashQuotes.length;
+      splashEl.textContent = splashQuotes[splashIdx];
+      window.soundEngine.playClick();
+    });
+  }
+
+  // -------------------------------------------------------------
+  // 11. Minecraft Inventory GUI Modal ('E' key or Inventory Button)
+  // -------------------------------------------------------------
+  const invModal = document.getElementById("inventory-modal");
+  const invCloseBtn = document.getElementById("inv-close-btn");
+  const invToggleBtn = document.getElementById("inv-toggle-btn");
+
+  function toggleInventory(forceOpen) {
+    if (!invModal) return;
+    const shouldOpen = forceOpen !== undefined ? forceOpen : !invModal.classList.contains("inv-open");
+    if (shouldOpen) {
+      invModal.classList.add("inv-open");
+      window.soundEngine.playChest();
+    } else {
+      invModal.classList.remove("inv-open");
+      window.soundEngine.playClick();
+    }
+  }
+
+  if (invToggleBtn) invToggleBtn.addEventListener("click", () => toggleInventory());
+  if (invCloseBtn) invCloseBtn.addEventListener("click", () => toggleInventory(false));
+  if (invModal) {
+    invModal.addEventListener("click", (e) => {
+      if (e.target === invModal) toggleInventory(false);
+    });
+  }
+
+  // -------------------------------------------------------------
+  // 12. Keyboard Controls (1-9, E, T, Esc)
+  // -------------------------------------------------------------
   window.addEventListener("keydown", (e) => {
-    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+      if (e.key === "Escape") toggleChat(false);
+      return;
+    }
 
     if (e.key >= "1" && e.key <= "9") {
       const idx = parseInt(e.key) - 1;
@@ -325,43 +593,46 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // Toggle Chat with 'T' or '/'
+    if (e.key.toLowerCase() === "e") {
+      e.preventDefault();
+      toggleInventory();
+    }
+
     if (e.key.toLowerCase() === "t" || e.key === "/") {
       e.preventDefault();
       toggleChat(true);
     }
 
-    // Escape closes modals
     if (e.key === "Escape") {
       toggleChat(false);
+      toggleInventory(false);
     }
   });
 
   // -------------------------------------------------------------
-  // 5. Warp Buttons in Content (Teleport with Ender Pearl / Portal)
+  // 13. Gateway Buttons & Content Triggers
   // -------------------------------------------------------------
   document.querySelectorAll("[data-teleport-target]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      if (isScrollLocked) return;
       const targetId = btn.getAttribute("data-teleport-target");
-      const targetEl = document.getElementById(targetId);
-      const isPortal = btn.classList.contains("nether-style");
+      const warpType = btn.getAttribute("data-warp");
 
-      if (isPortal) {
-        const biome = btn.getAttribute("data-biome") || "nether";
-        triggerNetherPortal(biome, targetId);
+      if (warpType === "portal") {
+        triggerNetherPortal("nether", targetId);
+      } else if (warpType === "endportal") {
+        triggerEndPortal(targetId);
       } else {
         const rect = btn.getBoundingClientRect();
+        const targetEl = document.getElementById(targetId);
         throwEnderPearl(rect.left + rect.width / 2, rect.top + rect.height / 2, targetEl);
       }
     });
   });
 
-  // -------------------------------------------------------------
-  // 6. Sound Toggle & Audio Feedback
-  // -------------------------------------------------------------
+  // Sound Toggle Button
   const soundToggleBtn = document.getElementById("sound-toggle-btn");
   const soundStatusText = document.getElementById("sound-status-text");
-
   if (soundToggleBtn) {
     soundToggleBtn.addEventListener("click", () => {
       const enabled = window.soundEngine.toggleSound();
@@ -370,14 +641,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Generic Button Click Sounds
-  document.querySelectorAll(".mc-btn, .hud-btn, .cmd-chip, .contact-card").forEach((el) => {
+  document.querySelectorAll(".mc-btn, .hud-btn, .cmd-chip, .contact-card, .inv-slot-box").forEach((el) => {
     el.addEventListener("click", () => {
       window.soundEngine.playClick();
     });
   });
 
-  // Player Hearts damage/hurt Easter Egg
+  // Hearts damage easter egg
   document.querySelectorAll(".hearts-container .hud-icon").forEach((heart) => {
     heart.addEventListener("click", () => {
       window.soundEngine.playOof();
@@ -391,7 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -------------------------------------------------------------
-  // 7. Interactive Server Console / CLI Simulator
+  // 14. Server Console Simulator
   // -------------------------------------------------------------
   const consoleOutput = document.getElementById("server-console-output");
   const consoleInput = document.getElementById("console-user-input");
@@ -430,10 +700,13 @@ document.addEventListener("DOMContentLoaded", () => {
       appendConsoleLine("On branch <b>main</b><br>Your branch is up to date with 'origin/main'.<br>Working tree clean. 100+ commits pushed.", "success");
     } else if (lower.startsWith("warp ")) {
       const dim = lower.split(" ")[1];
-      if (["overworld", "nether", "end"].includes(dim)) {
-        const targetMap = { overworld: "about", nether: "achievements", end: "hobbies" };
-        triggerNetherPortal(dim, targetMap[dim]);
-        appendConsoleLine(`[PORTAL] Teleporting player to dimension: ${dim}`, "success");
+      if (dim === "nether") {
+        triggerNetherPortal("nether", "achievements");
+      } else if (dim === "end") {
+        triggerEndPortal("hobbies");
+      } else if (dim === "overworld") {
+        setBiome("overworld", true, true);
+        document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
       } else {
         appendConsoleLine(`Unknown dimension: ${dim}. Choose overworld, nether, or end.`, "error");
       }
@@ -468,7 +741,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -------------------------------------------------------------
-  // 8. Interactive AI / ML Neural Visualizer & Weight Matrix
+  // 15. AI / ML Neural Visualizer & Weight Matrix
   // -------------------------------------------------------------
   const sliders = document.querySelectorAll(".weight-slider");
   const predResult = document.getElementById("ai-prediction-text");
@@ -506,7 +779,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateAIPrediction();
 
   // -------------------------------------------------------------
-  // 9. Minecraft Chat Modal ('T' hotkey)
+  // 16. Chat Modal ('T' hotkey)
   // -------------------------------------------------------------
   const chatModal = document.getElementById("chat-modal");
   const chatInput = document.getElementById("chat-text-input");
@@ -524,9 +797,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  if (chatToggleBtn) {
-    chatToggleBtn.addEventListener("click", () => toggleChat());
-  }
+  if (chatToggleBtn) chatToggleBtn.addEventListener("click", () => toggleChat());
 
   function addChatMessage(sender, text, isSystem = false) {
     if (!chatHistory) return;
@@ -558,12 +829,11 @@ document.addEventListener("DOMContentLoaded", () => {
         addChatMessage("Server", "Commands: /teleport [overworld|nether|end], /stats, /contact, /clear", true);
       } else if (cmd === "teleport" || cmd === "tp") {
         const dim = parts[1] || "nether";
-        const map = { overworld: "about", nether: "achievements", end: "hobbies" };
-        if (map[dim]) {
-          triggerNetherPortal(dim, map[dim]);
-          addChatMessage("Server", `Teleported to ${dim}`, true);
-        } else {
-          addChatMessage("Server", `Unknown realm: ${dim}. Try: overworld, nether, end`, true);
+        if (dim === "nether") triggerNetherPortal("nether", "achievements");
+        else if (dim === "end") triggerEndPortal("hobbies");
+        else {
+          setBiome("overworld", true, true);
+          document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
         }
       } else if (cmd === "stats") {
         addChatMessage("Kanav", "18 yrs old | Passion: AI/ML | TT State Rank | Counter-Strike Finalist | Robot Builder", true);
@@ -582,9 +852,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // -------------------------------------------------------------
-  // 10. Copy /msg command to clipboard
-  // -------------------------------------------------------------
+  // Copy command button
   const copyBtn = document.getElementById("copy-cmd-btn");
   if (copyBtn) {
     copyBtn.addEventListener("click", () => {
@@ -600,4 +868,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
